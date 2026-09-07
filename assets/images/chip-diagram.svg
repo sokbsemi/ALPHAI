@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" width="100%" height="100%" fill="none" class="w-full h-auto">
+  <defs>
+    <linearGradient id="dieGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F2042" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#1E293B" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="busGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D97706"/>
+      <stop offset="50%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Die Boundary -->
+  <rect x="20" y="20" width="920" height="520" rx="16" fill="url(#dieGrad)" stroke="#334155" stroke-width="2"/>
+  <rect x="28" y="28" width="904" height="504" rx="12" fill="none" stroke="#D97706" stroke-width="1" stroke-dasharray="6,4" opacity="0.4"/>
+
+  <!-- Title Badge -->
+  <rect x="40" y="38" width="410" height="32" rx="6" fill="#0B132B" stroke="#1E293B" stroke-width="1"/>
+  <text x="52" y="59" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#38BDF8">SOKB-RV40: DUAL-CORE HAZARD3 RISC-V SYSTEM ARCHITECTURE</text>
+  <text x="780" y="59" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#D97706">40nm BULK CMOS</text>
+
+  <!-- Core 0 Block -->
+  <g id="core0" transform="translate(50, 90)">
+    <rect width="260" height="150" rx="10" fill="#1A2238" stroke="#38BDF8" stroke-width="2"/>
+    <rect x="10" y="10" width="240" height="26" rx="4" fill="#0E172A"/>
+    <text x="20" y="28" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#F8FAFC">CORE 0: HAZARD3 RV32IMAC_Zba_Zbb_Zbs</text>
+    
+    <rect x="14" y="44" width="110" height="42" rx="4" fill="#0B1329" stroke="#64748B" stroke-width="1"/>
+    <text x="22" y="62" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#94A3B8">3-Stage Pipe</text>
+    <text x="22" y="76" font-family="ui-monospace, monospace" font-size="9" fill="#38BDF8">150-200 MHz</text>
+
+    <rect x="136" y="44" width="110" height="42" rx="4" fill="#0B1329" stroke="#64748B" stroke-width="1"/>
+    <text x="144" y="62" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#94A3B8">Zicsr / Debug</text>
+    <text x="144" y="76" font-family="ui-monospace, monospace" font-size="9" fill="#D97706">JTAG / OpenOCD</text>
+
+    <rect x="14" y="94" width="110" height="42" rx="4" fill="#042F2E" stroke="#14B8A6" stroke-width="1"/>
+    <text x="22" y="112" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#5EEAD4">8 KB L1 I-Cache</text>
+    <text x="22" y="126" font-family="ui-monospace, monospace" font-size="9" fill="#99F6E4">2-Way Set-Assoc</text>
+
+    <rect x="136" y="94" width="110" height="42" rx="4" fill="#042F2E" stroke="#14B8A6" stroke-width="1"/>
+    <text x="144" y="112" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#5EEAD4">8 KB L1 D-Cache</text>
+    <text x="144" y="126" font-family="ui-monospace, monospace" font-size="9" fill="#99F6E4">Write-Through</text>
+  </g>
+
+  <!-- Core 1 Block -->
+  <g id="core1" transform="translate(340, 90)">
+    <rect width="260" height="150" rx="10" fill="#1A2238" stroke="#38BDF8" stroke-width="2"/>
+    <rect x="10" y="10" width="240" height="26" rx="4" fill="#0E172A"/>
+    <text x="20" y="28" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#F8FAFC">CORE 1: HAZARD3 RV32IMAC_Zba_Zbb_Zbs</text>
+    
+    <rect x="14" y="44" width="110" height="42" rx="4" fill="#0B1329" stroke="#64748B" stroke-width="1"/>
+    <text x="22" y="62" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#94A3B8">3-Stage Pipe</text>
+    <text x="22" y="76" font-family="ui-monospace, monospace" font-size="9" fill="#38BDF8">150-200 MHz</text>
+
+    <rect x="136" y="44" width="110" height="42" rx="4" fill="#0B1329" stroke="#64748B" stroke-width="1"/>
+    <text x="144" y="62" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#94A3B8">Zicsr / Debug</text>
+    <text x="144" y="76" font-family="ui-monospace, monospace" font-size="9" fill="#D97706">JTAG / OpenOCD</text>
+
+    <rect x="14" y="94" width="110" height="42" rx="4" fill="#042F2E" stroke="#14B8A6" stroke-width="1"/>
+    <text x="22" y="112" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#5EEAD4">8 KB L1 I-Cache</text>
+    <text x="22" y="126" font-family="ui-monospace, monospace" font-size="9" fill="#99F6E4">2-Way Set-Assoc</text>
+
+    <rect x="136" y="94" width="110" height="42" rx="4" fill="#042F2E" stroke="#14B8A6" stroke-width="1"/>
+    <text x="144" y="112" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#5EEAD4">8 KB L1 D-Cache</text>
+    <text x="144" y="126" font-family="ui-monospace, monospace" font-size="9" fill="#99F6E4">Write-Through</text>
+  </g>
+
+  <!-- DMA Controller & Coherency Snoop -->
+  <g id="dma" transform="translate(630, 90)">
+    <rect width="280" height="150" rx="10" fill="#1E2235" stroke="#F59E0B" stroke-width="2"/>
+    <rect x="10" y="10" width="260" height="26" rx="4" fill="#0E172A"/>
+    <text x="20" y="28" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#FDE68A">SYSTEM DMA &amp; BOOT ENGINE</text>
+
+    <rect x="14" y="44" width="120" height="42" rx="4" fill="#131B2E" stroke="#64748B" stroke-width="1"/>
+    <text x="22" y="62" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#94A3B8">8-Channel DMA</text>
+    <text x="22" y="76" font-family="ui-monospace, monospace" font-size="9" fill="#38BDF8">Scatter-Gather</text>
+
+    <rect x="144" y="44" width="120" height="42" rx="4" fill="#131B2E" stroke="#64748B" stroke-width="1"/>
+    <text x="152" y="62" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#94A3B8">Boot ROM (16KB)</text>
+    <text x="152" y="76" font-family="ui-monospace, monospace" font-size="9" fill="#10B981">0x0000_0000</text>
+
+    <rect x="14" y="94" width="250" height="42" rx="4" fill="#2E1065" stroke="#A855F7" stroke-width="1"/>
+    <text x="24" y="112" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#E9D5FF">Clint / PLIC Interrupt Hub</text>
+    <text x="24" y="126" font-family="ui-monospace, monospace" font-size="9" fill="#C084FC">64 Prioritized External IRQs</text>
+  </g>
+
+  <!-- Central Interconnect: 64-bit Multi-Master AXI4 Crossbar -->
+  <g id="axi4" transform="translate(50, 260)">
+    <rect width="860" height="50" rx="8" fill="url(#busGrad)" stroke="#B45309" stroke-width="2" filter="url(#glow)"/>
+    <text x="220" y="32" font-family="ui-monospace, monospace" font-size="14" font-weight="800" fill="#0F172A" letter-spacing="1.5">64-BIT MULTI-MASTER AXI4 HIGH-BANDWIDTH CROSSBAR FABRIC (200 MHz)</text>
+  </g>
+
+  <!-- Connectors from Cores to AXI4 -->
+  <line x1="180" y1="240" x2="180" y2="260" stroke="#38BDF8" stroke-width="4" stroke-dasharray="4,2"/>
+  <line x1="470" y1="240" x2="470" y2="260" stroke="#38BDF8" stroke-width="4" stroke-dasharray="4,2"/>
+  <line x1="770" y1="240" x2="770" y2="260" stroke="#F59E0B" stroke-width="4" stroke-dasharray="4,2"/>
+
+  <!-- Async FIFO & CDC Isolation Boundary Layer -->
+  <g id="cdc" transform="translate(50, 325)">
+    <rect width="860" height="24" rx="4" fill="#451A03" stroke="#F97316" stroke-width="1" stroke-dasharray="4,4"/>
+    <text x="180" y="17" font-family="ui-monospace, monospace" font-size="10.5" font-weight="700" fill="#FDBA74">ASYNC FIFO BOUNDARIES • CLOCK DOMAIN CROSSING (CDC) ISOLATION MATRIX</text>
+  </g>
+
+  <!-- Bottom Modules: SRAM, Peripherals, Host Wireless Bridge -->
+  <!-- 512KB SRAM Matrix -->
+  <g id="sram" transform="translate(50, 365)">
+    <rect width="270" height="155" rx="10" fill="#0C2025" stroke="#14B8A6" stroke-width="2"/>
+    <rect x="10" y="10" width="250" height="24" rx="4" fill="#042F2E"/>
+    <text x="20" y="27" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#5EEAD4">UNIFIED 512 KB SRAM MATRIX</text>
+    <text x="20" y="52" font-family="ui-monospace, monospace" font-size="9.5" fill="#99F6E4">Physical Base: 0x1000_0000 - 0x1007_FFFF</text>
+    
+    <g transform="translate(10, 62)">
+      <rect x="0" y="0" width="56" height="42" rx="4" fill="#134E4A"/>
+      <text x="6" y="24" font-family="ui-monospace, monospace" font-size="9" fill="#FFF">Bank 0</text>
+      <text x="6" y="36" font-family="ui-monospace, monospace" font-size="8" fill="#99F6E4">128 KB</text>
+
+      <rect x="64" y="0" width="56" height="42" rx="4" fill="#134E4A"/>
+      <text x="70" y="24" font-family="ui-monospace, monospace" font-size="9" fill="#FFF">Bank 1</text>
+      <text x="70" y="36" font-family="ui-monospace, monospace" font-size="8" fill="#99F6E4">128 KB</text>
+
+      <rect x="128" y="0" width="56" height="42" rx="4" fill="#134E4A"/>
+      <text x="134" y="24" font-family="ui-monospace, monospace" font-size="9" fill="#FFF">Bank 2</text>
+      <text x="134" y="36" font-family="ui-monospace, monospace" font-size="8" fill="#99F6E4">128 KB</text>
+
+      <rect x="192" y="0" width="56" height="42" rx="4" fill="#134E4A"/>
+      <text x="198" y="24" font-family="ui-monospace, monospace" font-size="9" fill="#FFF">Bank 3</text>
+      <text x="198" y="36" font-family="ui-monospace, monospace" font-size="8" fill="#99F6E4">128 KB</text>
+    </g>
+    <text x="14" y="128" font-family="system-ui, sans-serif" font-size="10" fill="#94A3B8">Single-Cycle Latency • Dual-Ported</text>
+    <text x="14" y="144" font-family="ui-monospace, monospace" font-size="9" fill="#2DD4BF">Parity &amp; ECC Protected</text>
+  </g>
+
+  <!-- External Flash & Memory Controller -->
+  <g id="flash" transform="translate(340, 365)">
+    <rect width="260" height="155" rx="10" fill="#1E1E2E" stroke="#818CF8" stroke-width="2"/>
+    <rect x="10" y="10" width="240" height="24" rx="4" fill="#111827"/>
+    <text x="20" y="27" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#C7D2FE">OFF-CHIP XIP FLASH CTRL</text>
+    <text x="20" y="52" font-family="ui-monospace, monospace" font-size="9.5" fill="#A5B4FC">Window: 0x2000_0000 - 0x203F_FFFF</text>
+
+    <rect x="14" y="65" width="230" height="38" rx="4" fill="#0B0F19" stroke="#4F46E5" stroke-width="1"/>
+    <text x="24" y="82" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#E0E7FF">Octal / Quad SPI PHY</text>
+    <text x="24" y="95" font-family="ui-monospace, monospace" font-size="9" fill="#818CF8">Execute-in-Place (XIP) 133 MHz</text>
+
+    <rect x="14" y="110" width="230" height="36" rx="4" fill="#0B0F19" stroke="#4F46E5" stroke-width="1"/>
+    <text x="24" y="126" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#E0E7FF">Continuous Read Cache</text>
+    <text x="24" y="139" font-family="ui-monospace, monospace" font-size="9" fill="#34D399">Inline AES-128 Decryption Engine</text>
+  </g>
+
+  <!-- Digital Peripherals & Wireless Host Bridges -->
+  <g id="periph" transform="translate(620, 365)">
+    <rect width="290" height="155" rx="10" fill="#1E293B" stroke="#F43F5E" stroke-width="2"/>
+    <rect x="10" y="10" width="270" height="24" rx="4" fill="#0F172A"/>
+    <text x="20" y="27" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#FDA4AF">DIGITAL PERIPHERAL MATRIX &amp; HOST IO</text>
+    <text x="20" y="52" font-family="ui-monospace, monospace" font-size="9.5" fill="#FECDD3">Base: 0x4000_0000 - 0x400F_FFFF</text>
+
+    <g transform="translate(14, 64)">
+      <rect x="0" y="0" width="125" height="38" rx="4" fill="#0F172A" stroke="#E11D48" stroke-width="1"/>
+      <text x="8" y="16" font-family="ui-monospace, monospace" font-size="9.5" font-weight="700" fill="#FFF">100 MHz SDIO 3.0</text>
+      <text x="8" y="30" font-family="ui-monospace, monospace" font-size="8.5" fill="#FB7185">eMMC / High-Speed IO</text>
+
+      <rect x="135" y="0" width="125" height="38" rx="4" fill="#0F172A" stroke="#E11D48" stroke-width="1"/>
+      <text x="143" y="16" font-family="ui-monospace, monospace" font-size="9.5" font-weight="700" fill="#FFF">SPI Host Bridge</text>
+      <text x="143" y="30" font-family="ui-monospace, monospace" font-size="8.5" fill="#38BDF8">COTS Wireless Node</text>
+
+      <rect x="0" y="44" width="260" height="36" rx="4" fill="#0F172A" stroke="#475569" stroke-width="1"/>
+      <text x="10" y="60" font-family="ui-monospace, monospace" font-size="9.5" font-weight="600" fill="#E2E8F0">UART x4 • I2C x3 • Timers/PWM x8 • GPIO (48)</text>
+      <text x="10" y="73" font-family="ui-monospace, monospace" font-size="8.5" fill="#94A3B8">Isolated Low-Power Peripheral APB Sub-Bus</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en" class="light" data-font-size="normal">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0F2042" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#070C16" media="(prefers-color-scheme: dark)">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
+  <!-- Industry VAPT & OWASP Security Protocols -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.tailwindcss.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; font-src 'self' data:; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' mailto:; frame-ancestors 'none'; upgrade-insecure-requests;">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- Anti-Clickjacking Frame-Busting Defense (RFC / OWASP Recommendation) -->
+  <style id="antiClickjack">body{display:none !important;}</style>
+  <script>
+    if (self === top) {
+      var antiClickjack = document.getElementById("antiClickjack");
+      if (antiClickjack) antiClickjack.parentNode.removeChild(antiClickjack);
+    } else {
+      top.location = self.location;
+    }
+  </script>
+
+  <!-- Identity & SEO Register -->
+  <title>SOKB SEMICONDUCTOR | Sovereign RISC-V Compute Architecture | ISM 2.0 DLI</title>
+  <meta name="description" content="SOKB Semiconductor (SOKB Pvt. Ltd.) is a DPIIT-recognized deep-tech fabless semiconductor startup in Barabanki, UP, engineering silicon-proven 40nm RISC-V compute engines aligned with India Semiconductor Mission (ISM 2.0).">
+  <meta name="keywords" content="SOKB Semiconductor, RISC-V, Hazard3, ISM 2.0, Semicon 2.0, DLI Scheme, MeitY, Fabless Semiconductor India, Barabanki Uttar Pradesh, AXI4 Interconnect, 40nm silicon">
+  <meta name="author" content="SOKB Private Limited">
+  <link rel="canonical" href="https://sokbsemi.in/">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            silicon: '#2B2D2F',
+            navy: {
+              DEFAULT: '#0F2042',
+              dark: '#091326',
+              deep: '#060B17'
+            },
+            copper: {
+              DEFAULT: '#D97706',
+              light: '#F59E0B',
+              dark: '#B45309'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Core Custom Stylesheet & GIGW Accessibility -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="min-h-screen flex flex-col bg-slate-50 dark:bg-[#070C16] text-slate-800 dark:text-slate-100 antialiased selection:bg-amber-500 selection:text-black">
+
+  <!-- GIGW Mandatory Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to Main Content</a>
+
+  <!-- GIGW Institutional Accessibility & Sovereign Top-Bar -->
+  <header class="w-full bg-[#0A1630] text-slate-200 border-b border-slate-800 text-xs py-1.5 px-4 sm:px-8">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center space-x-3 text-[11px] tracking-wide font-mono">
+        <span class="inline-flex items-center text-amber-400 font-semibold">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span>
+          ISM 2.0 / DLI ALIGNED
+        </span>
+        <span class="hidden md:inline text-slate-500">|</span>
+        <span class="hidden md:inline text-slate-300">DPIIT RECOGNIZED DEEP-TECH STARTUP • MeitY</span>
+        <span class="hidden lg:inline text-slate-500">|</span>
+        <span class="hidden lg:inline text-slate-400">BARABANKI, UTTAR PRADESH</span>
+      </div>
+
+      <!-- GIGW Accessibility Controls Bar -->
+      <div id="gigw-bar" class="flex items-center space-x-3 text-[11px]" aria-label="Accessibility and Time Settings">
+        <div class="hidden sm:flex items-center text-slate-400 font-mono" id="ist-clock" title="Indian Standard Time">
+          Loading IST...
+        </div>
+        
+        <div class="h-3.5 w-px bg-slate-700 hidden sm:block"></div>
+
+        <!-- Font Resizer -->
+        <div class="flex items-center space-x-1" role="group" aria-label="Font Size Controls">
+          <button class="font-size-btn px-1.5 py-0.5 rounded hover:bg-slate-800 transition" data-size="small" title="Decrease font size" aria-label="Small font">A-</button>
+          <button class="font-size-btn px-1.5 py-0.5 rounded hover:bg-slate-800 font-bold border-b-2 border-amber-500 transition" data-size="normal" title="Standard font size" aria-label="Normal font">A</button>
+          <button class="font-size-btn px-1.5 py-0.5 rounded hover:bg-slate-800 transition" data-size="large" title="Increase font size" aria-label="Large font">A+</button>
+        </div>
+
+        <div class="h-3.5 w-px bg-slate-700"></div>
+
+        <!-- High Contrast Mode Toggle -->
+        <button id="contrast-toggle-btn" class="px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider border border-slate-700 hover:border-amber-500 transition" title="Toggle High Contrast Mode (GIGW)" aria-label="Toggle High Contrast">
+          Contrast
+        </button>
+
+        <!-- Light/Dark Mode Switcher -->
+        <button class="theme-toggle-btn p-1 rounded hover:bg-slate-800 text-amber-400 transition" aria-label="Switch Theme" aria-pressed="false">
+          <!-- Moon Icon (Light Mode Active) -->
+          <svg class="theme-icon-dark w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <!-- Sun Icon (Dark Mode Active) -->
+          <svg class="theme-icon-light w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Primary Navigation Navbar -->
+  <nav class="sticky top-0 z-40 bg-white/95 dark:bg-[#0A1120]/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm transition-colors duration-200" aria-label="Main Navigation">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Brand Logo & Identity Link (Non-Truncating, Dark/Light High Contrast) -->
+        <a href="index.html" class="flex items-center space-x-3 focus:outline-none focus:ring-2 focus:ring-amber-500 rounded-lg p-1 group shrink-0" aria-label="SOKB Semiconductor Home">
+          <img src="assets/images/logo-mark.jpg" alt="SOKB Semiconductor Emblem" class="h-11 w-11 sm:h-12 sm:w-12 rounded-lg object-contain border border-slate-300 dark:border-slate-700 shadow-sm group-hover:border-amber-500 transition shrink-0">
+          <div class="flex flex-col justify-center">
+            <div class="flex items-baseline space-x-1.5 whitespace-nowrap">
+              <span class="text-xl sm:text-2xl font-black tracking-wider text-slate-900 dark:text-white font-sans transition-colors">SOKB</span>
+              <span class="text-base sm:text-lg font-bold tracking-widest text-amber-600 dark:text-amber-400 font-sans transition-colors">SEMICONDUCTOR</span>
+            </div>
+            <span class="text-[8.5px] sm:text-[9.5px] font-mono font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase -mt-0.5 whitespace-nowrap">
+              SOVEREIGN RISC-V SILICON • ISM 2.0 DLI
+            </span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Items -->
+        <div class="hidden xl:flex items-center space-x-6 text-xs font-mono uppercase tracking-wider font-semibold">
+          <a href="index.html" class="text-amber-600 dark:text-amber-400 border-b-2 border-amber-600 dark:border-amber-400 pb-1" aria-current="page">The Core Advantage</a>
+          <a href="product.html" class="text-slate-600 dark:text-slate-300 hover:text-cyan-400 transition pb-1 flex items-center space-x-1.5">
+            <span>Product: ATLAS-I</span>
+            <span class="inline-block px-1.5 py-0.2 bg-cyan-500/20 text-cyan-400 text-[9px] rounded font-bold border border-cyan-400/40">NEW</span>
+          </a>
+          <a href="architecture.html" class="text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400 transition pb-1">Architecture &amp; Memory</a>
+          <a href="roadmap.html" class="text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400 transition pb-1">ISM DLI &amp; Tape-Out</a>
+          <a href="licensing.html" class="text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400 transition pb-1">IP Licensing</a>
+          <a href="contact.html" class="text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400 transition pb-1">Design Office</a>
+        </div>
+
+        <!-- Action CTA & Direct Abstract Trigger -->
+        <div class="hidden sm:flex items-center space-x-3">
+          <a href="product.html" class="inline-flex items-center px-3.5 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 text-xs font-mono font-bold uppercase tracking-wider rounded-md transition shadow hover:shadow-cyan-500/25">
+            ATLAS-I Waitlist
+          </a>
+          <button data-trigger-abstract class="inline-flex items-center px-3.5 py-2 border border-slate-300 dark:border-slate-700 hover:border-amber-500 text-xs font-mono font-bold uppercase tracking-wider rounded-md text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 bg-slate-100 dark:bg-slate-800/80 transition shadow-sm">
+            DLI Abstract
+          </button>
+        </div>
+
+        <!-- Mobile Menu Hamburger Button -->
+        <div class="flex xl:hidden items-center space-x-2">
+          <button id="mobile-menu-btn" type="button" class="p-2 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 min-h-[44px] min-w-[44px]" aria-controls="mobile-menu" aria-expanded="false" aria-label="Toggle main menu">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden xl:hidden border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 pt-2 pb-6 space-y-2">
+      <a href="index.html" class="block px-3 py-2 rounded-md text-sm font-mono font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 bg-amber-500/10">The Core Advantage</a>
+      <a href="product.html" class="block px-3 py-2 rounded-md text-sm font-mono font-bold uppercase tracking-wider text-cyan-500 dark:text-cyan-400 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-between">
+        <span>Product: ATLAS-I</span>
+        <span class="px-1.5 py-0.5 bg-cyan-500/20 text-cyan-400 text-[10px] rounded font-bold">LAUNCH</span>
+      </a>
+      <a href="architecture.html" class="block px-3 py-2 rounded-md text-sm font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">Architecture &amp; Memory</a>
+      <a href="roadmap.html" class="block px-3 py-2 rounded-md text-sm font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">ISM DLI &amp; Tape-Out</a>
+      <a href="licensing.html" class="block px-3 py-2 rounded-md text-sm font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">IP Licensing</a>
+      <a href="contact.html" class="block px-3 py-2 rounded-md text-sm font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">Design Office</a>
+      <div class="pt-3 flex flex-col gap-2">
+        <button data-trigger-abstract class="w-full text-center py-2 px-3 border border-slate-300 dark:border-slate-700 rounded text-xs font-mono font-bold uppercase text-slate-700 dark:text-slate-200">
+          Download DLI Abstract
+        </button>
+        <a href="contact.html" class="w-full text-center py-2 px-3 bg-amber-600 hover:bg-amber-500 rounded text-xs font-mono font-bold uppercase text-slate-950">
+          Secure Contact Channel
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content Container -->
+  <main id="main-content" class="flex-grow">
+
+    <!-- ==================== 1. HERO SECTION ==================== -->
+    <section class="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-28 border-b border-slate-200 dark:border-slate-800 bg-gradient-to-b from-slate-100 via-slate-50 to-white dark:from-[#080E1B] dark:via-[#091122] dark:to-[#070C16]">
+      <!-- Background Silicon Track Overlay -->
+      <div class="absolute inset-0 silicon-grid-pattern opacity-40 pointer-events-none" aria-hidden="true"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
+        
+        <!-- Institutional Tagging Badges -->
+        <div class="inline-flex flex-wrap items-center gap-2 mb-6">
+          <span class="badge-blue px-3 py-1 rounded text-xs font-bold uppercase tracking-wider">
+            SOVEREIGN FABLESS SILICON
+          </span>
+          <span class="badge-copper px-3 py-1 rounded text-xs font-bold uppercase tracking-wider">
+            40nm PROCESS NODE TARGET
+          </span>
+          <span class="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded text-xs font-mono uppercase tracking-wider">
+            RV32IMAC DUAL-CORE
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <!-- Hero Lead Column -->
+          <div class="lg:col-span-8 space-y-6">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12]">
+              India’s Next-Generation Open <span class="text-amber-600 dark:text-amber-400 underline decoration-amber-500/40 underline-offset-8">RISC-V Compute Architecture.</span>
+            </h1>
+
+            <p class="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed font-normal">
+              <strong>SOKB Semiconductor (SOKB Pvt. Ltd.)</strong> is engineering high-frequency, silicon-proven 40nm digital IP blocks designed for sovereign autonomy. Fully backed by the India Semiconductor Mission.
+            </p>
+
+            <div class="p-4 rounded-lg bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 shadow-sm max-w-2xl text-xs font-mono text-slate-600 dark:text-slate-400 space-y-1">
+              <div class="flex items-center space-x-2 text-slate-800 dark:text-slate-200 font-bold">
+                <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                <span>CHIPIN CENTRE EDA RESOURCE SYNCHRONIZED</span>
+              </div>
+              <p>Direct integration with SCL Mohali test structures, Synopsys/Cadence toolchains via ChipIN, and generic SystemVerilog RTL verified on FPGA twins.</p>
+            </div>
+
+            <!-- CTA Matrix -->
+            <div class="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+              <a href="architecture.html" class="inline-flex justify-center items-center px-6 py-3.5 bg-amber-600 hover:bg-amber-500 text-slate-950 font-mono text-xs font-bold uppercase tracking-wider rounded-md transition shadow-md hover:shadow-lg">
+                Review Technical Architecture
+                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </a>
+
+              <button data-trigger-abstract class="inline-flex justify-center items-center px-6 py-3.5 border-2 border-slate-300 dark:border-slate-700 hover:border-amber-500 text-slate-800 dark:text-slate-100 font-mono text-xs font-bold uppercase tracking-wider rounded-md bg-white dark:bg-slate-900/60 transition shadow-sm">
+                <svg class="w-4 h-4 mr-2 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                Download DLI Executive Abstract
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Hero Metrics Telemetry Block -->
+          <div class="lg:col-span-4">
+            <div class="rounded-xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 p-6 shadow-xl relative overflow-hidden">
+              <div class="absolute top-0 right-0 bg-amber-600 text-slate-950 text-[10px] font-mono font-bold px-3 py-1 uppercase tracking-widest rounded-bl">
+                40nm SILICON
+              </div>
+
+              <div class="text-xs font-mono text-slate-500 dark:text-slate-400 mb-4 flex items-center space-x-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span>SYSTEM TARGET SPECIFICATION</span>
+              </div>
+
+              <div class="space-y-4">
+                <div class="border-b border-slate-100 dark:border-slate-800 pb-3">
+                  <div class="text-2xl font-extrabold font-mono text-slate-900 dark:text-white">150 - 200 MHz</div>
+                  <div class="text-xs text-slate-500 dark:text-slate-400">Core Frequency (40nm CMOS)</div>
+                </div>
+
+                <div class="border-b border-slate-100 dark:border-slate-800 pb-3">
+                  <div class="text-2xl font-extrabold font-mono text-amber-600 dark:text-amber-400">Dual Hazard3</div>
+                  <div class="text-xs text-slate-500 dark:text-slate-400">RV32IMAC_Zba_Zbb_Zbs Core Matrix</div>
+                </div>
+
+                <div class="border-b border-slate-100 dark:border-slate-800 pb-3">
+                  <div class="text-2xl font-extrabold font-mono text-slate-900 dark:text-white">512 KB SRAM</div>
+                  <div class="text-xs text-slate-500 dark:text-slate-400">Unified 4-Bank Zero Wait-State Matrix</div>
+                </div>
+
+                <div>
+                  <div class="text-2xl font-extrabold font-mono text-emerald-600 dark:text-emerald-400">Option B Model</div>
+                  <div class="text-xs text-slate-500 dark:text-slate-400">100% Digital Silicon (Zero RF Die Risk)</div>
+                </div>
+              </div>
+
+              <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400 flex justify-between items-center">
+                <span>ENTITY REG: SOKB PVT LTD</span>
+                <span class="text-amber-600 dark:text-amber-400 font-semibold">PIN 225001</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== ATLAS-I FLAGSHIP PRODUCT LAUNCH BLOCK ==================== -->
+    <section class="py-16 bg-gradient-to-b from-[#070C16] via-[#0B152B] to-[#0A1120] text-white border-b border-slate-800 relative overflow-hidden">
+      <div class="absolute inset-0 silicon-grid-pattern opacity-25 pointer-events-none" aria-hidden="true"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
+        
+        <!-- Section Header -->
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-8 border-b border-slate-800 mb-10">
+          <div class="space-y-2 max-w-3xl">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 font-mono text-[11px] uppercase tracking-widest">
+              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+              <span>SOKB SILICON PRODUCT DIRECTORY • FLAGSHIP ANNOUNCEMENT</span>
+            </div>
+            <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight">
+              The Frontier is Moving. <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-amber-400">Introducing ATLAS-I.</span>
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans pt-1">
+              The traditional boundaries of silicon are officially history. SOKB Semiconductor unveils a fundamental leap in hardware engineering: the <strong>ATLAS-I Chiplet Architecture</strong>. Built from the ground up for intense edge computing workloads, ATLAS-I delivers raw processing power without any thermal penalty.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3 shrink-0">
+            <a href="product.html" class="px-5 py-2.5 bg-gradient-to-r from-cyan-400 to-blue-600 hover:from-cyan-300 hover:to-blue-500 text-slate-950 font-mono text-xs font-bold uppercase tracking-wider rounded-md transition shadow-lg min-h-[44px] flex items-center justify-center">
+              Explore ATLAS-I Architecture →
+            </a>
+            <a href="mailto:design@sokbsemi.in?subject=Insider%20List%20Request%20-%20ATLAS-I%20Launch&body=Hello%20SOKB%20Team%2C%0A%0AI%20would%20like%20to%20join%20the%20insider%20list%20for%20the%20ATLAS-I%20launch." 
+               class="px-5 py-2.5 border border-slate-700 hover:border-cyan-400 text-slate-200 font-mono text-xs font-bold uppercase tracking-wider rounded-md bg-slate-900/60 transition min-h-[44px] flex items-center justify-center">
+              Join Waitlist
+            </a>
+          </div>
+        </div>
+
+        <!-- 3-Column Core Metrics Triad -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <div class="p-6 rounded-xl bg-slate-900/90 border border-slate-800 border-l-4 border-l-cyan-400 shadow-md flex flex-col justify-between space-y-3">
+            <div>
+              <div class="flex items-center space-x-2 text-cyan-400 font-mono text-xs font-bold">
+                <span>⚡ 30% MORE EFFICIENT</span>
+              </div>
+              <h3 class="text-base font-bold text-white mt-2">Zero Thermal Throttle Leaks</h3>
+              <p class="text-xs text-slate-400 leading-relaxed mt-1 font-sans">
+                Custom on-die power delivery layers curb extreme thermal leaks, maximizing operational clock limits without driving up power consumption.
+              </p>
+            </div>
+            <div class="pt-3 border-t border-slate-800/80 font-mono text-[11px] text-cyan-400 font-semibold">
+              On-Die Power Plane Isolation
+            </div>
+          </div>
+
+          <div class="p-6 rounded-xl bg-slate-900/90 border border-slate-800 border-l-4 border-l-cyan-400 shadow-md flex flex-col justify-between space-y-3">
+            <div>
+              <div class="flex items-center space-x-2 text-cyan-400 font-mono text-xs font-bold">
+                <span>🧠 50% MORE COMPUTE DENSITY</span>
+              </div>
+              <h3 class="text-base font-bold text-white mt-2">Neural Network Matrix Acceleration</h3>
+              <p class="text-xs text-slate-400 leading-relaxed mt-1 font-sans">
+                Packed physical matrix scaling layout designed intentionally to process extensive neural network calculations smoothly on edge devices.
+              </p>
+            </div>
+            <div class="pt-3 border-t border-slate-800/80 font-mono text-[11px] text-cyan-400 font-semibold">
+              High-Density Silicon Matrix
+            </div>
+          </div>
+
+          <div class="p-6 rounded-xl bg-slate-900/90 border border-slate-800 border-l-4 border-l-cyan-400 shadow-md flex flex-col justify-between space-y-3">
+            <div>
+              <div class="flex items-center space-x-2 text-cyan-400 font-mono text-xs font-bold">
+                <span>🌐 THE RISC-V EDGE STANDARD</span>
+              </div>
+              <h3 class="text-base font-bold text-white mt-2">Sovereign Concurrency Engine</h3>
+              <p class="text-xs text-slate-400 leading-relaxed mt-1 font-sans">
+                Engineered to handle dense concurrent processing requests under high systemic strain with strict uptime and sovereign ownership guarantees.
+              </p>
+            </div>
+            <div class="pt-3 border-t border-slate-800/80 font-mono text-[11px] text-cyan-400 font-semibold">
+              Open-Architecture Compliance
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== 2. SOVEREIGN MANDATE BLOCK ==================== -->
+    <section class="py-16 bg-white dark:bg-[#091122] border-b border-slate-200 dark:border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8">
+        
+        <div class="border-l-4 border-amber-600 pl-4 mb-10">
+          <div class="text-xs font-mono font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">National Semiconductor Strategy</div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+            Synchronization with India Semiconductor Mission (ISM 2.0)
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          <!-- Pillar 1 -->
+          <div class="p-6 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-amber-500/50 transition">
+            <div class="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-600 dark:text-amber-400 mb-4 font-mono font-bold">
+              01
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Semicon 2.0 &amp; DLI Deployment</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              SOKB Semiconductor directly leverages the upgraded Design Linked Incentive (DLI) scheme under MeitY, unlocking 50% design subsidy reimbursement across EDA software subscriptions, multi-project wafer (MPW) runs, and post-silicon ATMP operations.
+            </p>
+            <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 font-mono text-[11px] text-amber-600 dark:text-amber-400">
+              Target: DPR Clearance &amp; MPW Shuttle
+            </div>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="p-6 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-amber-500/50 transition">
+            <div class="w-10 h-10 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-600 dark:text-sky-400 mb-4 font-mono font-bold">
+              02
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Barabanki Deep-Tech Design Hub</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Strategically headquartered in Barabanki, Uttar Pradesh (PIN: 225001) in direct proximity to the state capital Lucknow, establishing an indigenous silicon VLSI layout epicenter within North India's emerging semiconductor and defense corridor.
+            </p>
+            <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 font-mono text-[11px] text-sky-600 dark:text-sky-400">
+              Uttar Pradesh Semiconductor Anchor
+            </div>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="p-6 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-amber-500/50 transition">
+            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mb-4 font-mono font-bold">
+              03
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Sovereign IP Ownership</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              100% Indian-controlled equity maintaining strict DPIIT deep-tech startup criteria (>50% citizen shareholding). All macro blocks and microarchitectural extensions are fully licensed under Apache-2.0 and AGPL-compliant frameworks for sovereign national autonomy.
+            </p>
+            <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 font-mono text-[11px] text-emerald-600 dark:text-emerald-400">
+              Domestic Equity &amp; IP Protection
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== 3. IP PORTFOLIO GRID ==================== -->
+    <section class="py-16 bg-slate-100 dark:bg-[#070D18] border-b border-slate-200 dark:border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+          <div>
+            <div class="text-xs font-mono font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">Hardened Digital Blocks</div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+              SOKB Silicon IP Portfolio Matrix
+            </h2>
+          </div>
+          <p class="text-xs font-mono text-slate-500 dark:text-slate-400 mt-2 md:mt-0">
+            TECHNOLOGY NODE: 40nm CMOS BULK • VERIFIED VIA SYSTEMVERILOG
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Core 01 Card -->
+          <div class="p-6 rounded-xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-amber-500 transition shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                <span class="text-xs font-mono font-bold text-amber-600 dark:text-amber-400">CORE 01</span>
+                <span class="bg-amber-500/10 text-amber-600 dark:text-amber-300 text-[10px] font-mono px-2 py-0.5 rounded border border-amber-500/20">PRIMARY COMPUTE</span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mt-3">
+                Dual-Core Hazard3 Processor Matrix
+              </h3>
+              <div class="text-xs font-mono text-slate-500 dark:text-slate-400 mt-1 mb-3">
+                ISA: RV32IMAC_Zba_Zbb_Zbs • RP2350 Verified Microarchitecture
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                Engineered based on Luke Wren's proven Hazard3 3-stage pipelined architecture (as adopted in the commercial RP2350 silicon). Implements standard integer multiplication/division (M), atomic primitives (A), and compressed instructions (C) along with address calculation and bit manipulation acceleration (Zba/Zbb/Zbs). Optimized for 150-200 MHz on 40nm standard cell libraries.
+              </p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-[11px] font-mono">
+              <span class="text-slate-500">Pipeline: 3-Stage In-Order</span>
+              <span class="text-emerald-600 dark:text-emerald-400 font-semibold">1.8 DMIPS / MHz</span>
+            </div>
+          </div>
+
+          <!-- Component 02 Card -->
+          <div class="p-6 rounded-xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-amber-500 transition shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                <span class="text-xs font-mono font-bold text-sky-600 dark:text-sky-400">COMPONENT 02</span>
+                <span class="bg-sky-500/10 text-sky-600 dark:text-sky-300 text-[10px] font-mono px-2 py-0.5 rounded border border-sky-500/20">SYSTEM FABRIC</span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mt-3">
+                64-Bit Multi-Master AXI4 Crossbar Interconnect
+              </h3>
+              <div class="text-xs font-mono text-slate-500 dark:text-slate-400 mt-1 mb-3">
+                Throughput: 12.8 Gbps/lane @ 200 MHz • Non-Blocking Routing
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                Full non-blocking high-bandwidth AXI4 matrix crossbar allowing simultaneous concurrent transactions between Core 0, Core 1, and the multi-channel DMA controller toward independent SRAM banks and peripheral bridges. Features parameterized FIFO queues, round-robin arbitration, and deadlock-free priority routing.
+              </p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-[11px] font-mono">
+              <span class="text-slate-500">Arbitration: Round-Robin / Fixed</span>
+              <span class="text-sky-600 dark:text-sky-400 font-semibold">64-Bit Wide Data Paths</span>
+            </div>
+          </div>
+
+          <!-- Component 03 Card -->
+          <div class="p-6 rounded-xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-amber-500 transition shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                <span class="text-xs font-mono font-bold text-teal-600 dark:text-teal-400">COMPONENT 03</span>
+                <span class="bg-teal-500/10 text-teal-600 dark:text-teal-300 text-[10px] font-mono px-2 py-0.5 rounded border border-teal-500/20">MEMORY SUB-SYSTEM</span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mt-3">
+                Unified 512 KB Synchronous SRAM &amp; L1 Caches
+              </h3>
+              <div class="text-xs font-mono text-slate-500 dark:text-slate-400 mt-1 mb-3">
+                4 x 128 KB Interleaved Banks + 8 KB I/D Caches per Core
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                High-density, low-leakage 40nm SRAM macro layout configured in four 128 KB dual-ported memory banks. Each Hazard3 core integrates private 8 KB 2-way set-associative instruction cache and 8 KB write-through data cache to minimize interconnect contention during compute-intensive digital signal processing loops.
+              </p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-[11px] font-mono">
+              <span class="text-slate-500">Latency: 1 Clock Cycle</span>
+              <span class="text-teal-600 dark:text-teal-400 font-semibold">Parity + SECDED ECC Option</span>
+            </div>
+          </div>
+
+          <!-- Component 04 Card -->
+          <div class="p-6 rounded-xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-amber-500 transition shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                <span class="text-xs font-mono font-bold text-rose-600 dark:text-rose-400">COMPONENT 04</span>
+                <span class="bg-rose-500/10 text-rose-600 dark:text-rose-300 text-[10px] font-mono px-2 py-0.5 rounded border border-rose-500/20">HOST BRIDGES</span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mt-3">
+                High-Speed Serial Host Interfaces &amp; COTS Bridges
+              </h3>
+              <div class="text-xs font-mono text-slate-500 dark:text-slate-400 mt-1 mb-3">
+                100 MHz SDIO 3.0 • SPI Host Wireless Nodes • 133 MHz QSPI
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                Dedicated asynchronous host macro blocks enabling high-throughput peripheral coupling without clock drift. Features a 100 MHz SDIO 3.0 interface for high-density storage/eMMC and custom high-speed SPI host bridges optimized for hosting commercial Wi-Fi/BLE/Sub-GHz transceivers on external companion modules.
+              </p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-[11px] font-mono">
+              <span class="text-slate-500">PHY: 1.8V / 3.3V Tolerant</span>
+              <span class="text-rose-600 dark:text-rose-400 font-semibold">Asynchronous FIFO Isolated</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== 4. CORE TECHNOLOGY METRIC SUMMARY ==================== -->
+    <section class="py-16 bg-white dark:bg-[#0A1120] border-b border-slate-200 dark:border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8">
+        
+        <div class="max-w-3xl mb-8">
+          <div class="text-xs font-mono font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">Architectural De-Risking Strategy</div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+            Execution Metric Matrix: Option B (Digital Silicon) vs. Integrated RF
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2">
+            Why SOKB Semiconductor chose a 100% digital silicon tape-out trajectory to guarantee first-pass silicon yield under ISM DLI guidelines rather than single-die mixed-signal RF traps.
+          </p>
+        </div>
+
+        <!-- Mobile Scroll Indicator Hint -->
+        <div class="md:hidden flex items-center justify-end text-[11px] font-mono text-amber-600 dark:text-amber-400 mb-2 space-x-1">
+          <svg class="w-3.5 h-3.5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+          <span>Scroll horizontally for full matrix</span>
+        </div>
+
+        <!-- Scannable Engineering Comparison Table -->
+        <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 shadow-md">
+          <table class="tech-table">
+            <thead>
+              <tr>
+                <th class="w-1/4">Evaluation Vector</th>
+                <th class="w-3/8 bg-amber-500/10 text-amber-700 dark:text-amber-300 border-b-2 border-amber-500">
+                  SOKB Option B (100% Digital Silicon + COTS Bridge)
+                </th>
+                <th class="w-3/8 text-slate-500 dark:text-slate-400">
+                  Single-Die Integrated RF SoC (Option A Route)
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+              <tr>
+                <td class="font-mono font-semibold text-slate-800 dark:text-slate-200">
+                  Tape-Out Mask Set Complexity
+                </td>
+                <td class="bg-amber-500/5 font-semibold text-emerald-700 dark:text-emerald-400">
+                  Standard 40nm Digital CMOS (28-32 Mask Layers)
+                </td>
+                <td class="text-slate-500 dark:text-slate-400">
+                  High-Cost Mixed-Signal RF CMOS (42-48 Mask Layers with Thick Metal &amp; Deep N-Well)
+                </td>
+              </tr>
+              <tr>
+                <td class="font-mono font-semibold text-slate-800 dark:text-slate-200">
+                  First-Pass Silicon Yield Probability
+                </td>
+                <td class="bg-amber-500/5 font-bold text-emerald-700 dark:text-emerald-400">
+                  &gt; 92% (Deterministic Standard Cell Timing Closure)
+                </td>
+                <td class="text-rose-600 dark:text-rose-400">
+                  &lt; 58% (Susceptible to Substrate Noise &amp; VCO Jitter)
+                </td>
+              </tr>
+              <tr>
+                <td class="font-mono font-semibold text-slate-800 dark:text-slate-200">
+                  EDA Tooling &amp; Simulation Cycle
+                </td>
+                <td class="bg-amber-500/5 text-slate-700 dark:text-slate-300">
+                  Fully covered via ChipIN Centre Digital Tooling (Design Compiler, Innovus, PrimeTime)
+                </td>
+                <td class="text-slate-500 dark:text-slate-400">
+                  Requires specialized RF Spectre-RF, GoldenGate, &amp; 3D EM extraction licenses (Extreme Cost)
+                </td>
+              </tr>
+              <tr>
+                <td class="font-mono font-semibold text-slate-800 dark:text-slate-200">
+                  Foundry Portability
+                </td>
+                <td class="bg-amber-500/5 font-semibold text-emerald-700 dark:text-emerald-400">
+                  High: Generic Verilog/SystemVerilog RTL ports across TSMC, GlobalFoundries, or SCL Mohali
+                </td>
+                <td class="text-slate-500 dark:text-slate-400">
+                  Locked to single foundry RF-PDK (Requires multi-crore redesign if foundry shuttle cancels)
+                </td>
+              </tr>
+              <tr>
+                <td class="font-mono font-semibold text-slate-800 dark:text-slate-200">
+                  Regulatory &amp; Wireless Certification
+                </td>
+                <td class="bg-amber-500/5 text-slate-700 dark:text-slate-300">
+                  Fast-track: Pre-certified COTS modules (WPC/FCC/CE) eliminate costly anechoic chamber recertification
+                </td>
+                <td class="text-rose-600 dark:text-rose-400">
+                  Requires 9-14 months of physical RF tuning, matching networks, and full WPC emissions compliance
+                </td>
+              </tr>
+              <tr>
+                <td class="font-mono font-semibold text-slate-800 dark:text-slate-200">
+                  DLI Subsidy Capital Efficiency
+                </td>
+                <td class="bg-amber-500/5 font-bold text-amber-600 dark:text-amber-400">
+                  INR 5.05 Cr Net Outlay (Maximizes MeitY 50% Match with zero wasted mask iterations)
+                </td>
+                <td class="text-slate-500 dark:text-slate-400">
+                  Exceeds INR 15+ Cr (High probability of requiring second tape-out spin)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 dark:text-slate-400">
+          <div>Verified against TSMC 40LP and GlobalFoundries 40e design rules.</div>
+          <div class="mt-2 sm:mt-0 font-mono">
+            <a href="architecture.html" class="text-amber-600 dark:text-amber-400 hover:underline">
+              Inspect Full FPGA Emulation Twin →
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== 5. CALL TO ACTION BLOCK ==================== -->
+    <section class="py-16 bg-slate-900 text-white relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-r from-[#0F2042] via-slate-900 to-[#1E293B] opacity-90"></div>
+      <div class="max-w-5xl mx-auto px-4 sm:px-8 relative z-10 text-center space-y-6">
+        
+        <div class="inline-block px-3 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono text-xs uppercase tracking-widest">
+          INDIA SEMICONDUCTOR MISSION (ISM 2.0) ENGAGEMENT
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">
+          Partner with India's Sovereign RISC-V Compute Pioneer
+        </h2>
+
+        <p class="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          SOKB Semiconductor is accepting engagement requests from Tier-1 hardware vendors, smart-metering original equipment manufacturers, and defense research organizations seeking silicon-proven sovereign IP.
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4">
+          <a href="contact.html" class="w-full sm:w-auto px-8 py-3.5 bg-amber-600 hover:bg-amber-500 text-slate-950 font-mono text-xs font-bold uppercase tracking-wider rounded-md transition shadow-lg">
+            Initiate Formal Discussion
+          </a>
+          <a href="roadmap.html" class="w-full sm:w-auto px-8 py-3.5 border border-slate-600 hover:border-slate-400 text-slate-200 font-mono text-xs font-bold uppercase tracking-wider rounded-md bg-slate-800/60 transition">
+            Review Phase 1-3 Tape-Out Roadmap
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Production Footer -->
+  <footer class="bg-slate-950 text-slate-300 border-t border-slate-800 text-xs py-12 px-4 sm:px-8 transition-colors duration-200">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      
+      <!-- Col 1: Entity & Brand (Non-Truncating High Contrast) -->
+      <div class="space-y-3 md:col-span-1">
+        <div class="flex items-center space-x-2.5">
+          <img src="assets/images/logo-mark.jpg" alt="SOKB Semiconductor Emblem" class="h-10 w-10 rounded-lg object-contain border border-slate-700 shadow-sm shrink-0">
+          <div class="flex flex-col justify-center">
+            <div class="flex items-baseline space-x-1.5 whitespace-nowrap">
+              <span class="text-lg font-black tracking-wider text-white font-sans">SOKB</span>
+              <span class="text-sm font-bold tracking-widest text-amber-400 font-sans">SEMICONDUCTOR</span>
+            </div>
+            <span class="text-[8px] font-mono font-semibold tracking-wider text-slate-400 uppercase whitespace-nowrap">
+              SOVEREIGN RISC-V SILICON • ISM 2.0 DLI
+            </span>
+          </div>
+        </div>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          SOKB Semiconductor is the trade brand of <strong>SOKB Private Limited</strong>, a DPIIT-recognized fabless deep-tech enterprise engineering sovereign RISC-V computing IP.
+        </p>
+        <div class="text-[10px] font-mono text-slate-500">
+          CIN: REGISTERED IN UTTAR PRADESH<br>
+          DPIIT RECOGNITION: DEEP-TECH HARDWARE
+        </div>
+      </div>
+
+      <!-- Col 2: Products & Compute -->
+      <div class="space-y-2">
+        <div class="font-mono text-xs font-bold uppercase tracking-wider text-amber-500">Products &amp; Compute</div>
+        <ul class="space-y-1.5 text-[11px] text-slate-400 font-mono">
+          <li><a href="product.html" class="text-cyan-400 hover:text-cyan-300 font-semibold transition">ATLAS-I Chiplet Architecture</a></li>
+          <li><a href="architecture.html" class="hover:text-amber-400 transition">Hazard3 Dual-Core SoC</a></li>
+          <li><a href="architecture.html#memory-map" class="hover:text-amber-400 transition">Physical Memory Map</a></li>
+          <li><a href="architecture.html#fpga-twin" class="hover:text-amber-400 transition">FPGA Verification Sandbox</a></li>
+          <li><a href="architecture.html#cdc-timing" class="hover:text-amber-400 transition">Asynchronous FIFO Timing</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Compliance & Mission -->
+      <div class="space-y-2">
+        <div class="font-mono text-xs font-bold uppercase tracking-wider text-amber-500">Policy &amp; Incentives</div>
+        <ul class="space-y-1.5 text-[11px] text-slate-400 font-mono">
+          <li><a href="roadmap.html" class="hover:text-amber-400 transition">ISM 2.0 Compliance Monitor</a></li>
+          <li><a href="roadmap.html#timeline" class="hover:text-amber-400 transition">Phase 1-3 Tape-Out Timeline</a></li>
+          <li><a href="licensing.html" class="hover:text-amber-400 transition">Commercial Licensing Terms</a></li>
+          <li><a href="licensing.html#budget" class="hover:text-amber-400 transition">DLI Subsidy &amp; Budget Model</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Secure Office & Direct Channels -->
+      <div class="space-y-2">
+        <div class="font-mono text-xs font-bold uppercase tracking-wider text-amber-500">Design Office &amp; Contact</div>
+        <p class="text-[11px] text-slate-400">
+          SOKB Semiconductor, Design Office,<br>
+          Barabanki, Uttar Pradesh, India (PIN: 225001)
+        </p>
+        <div class="pt-1 text-[11px] font-mono space-y-1">
+          <div><span class="text-slate-500">Email:</span> <a href="mailto:design@sokbsemi.in" class="text-sky-400 hover:underline">design@sokbsemi.in</a></div>
+          <div><span class="text-slate-500">Direct Line:</span> <a href="tel:+918287483811" class="text-sky-400 hover:underline">+91-8287483811</a></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Mandatory Institutional & Legal Disclaimer -->
+    <div class="max-w-7xl mx-auto pt-8 border-t border-slate-800 text-[11px] text-slate-500 space-y-2 text-center md:text-left md:flex md:justify-between md:items-center">
+      <div>
+        &copy; 2026 SOKB Semiconductor (SOKB Pvt. Ltd.). All Rights Reserved. Fully aligned with the guidelines of the Ministry of Electronics and Information Technology (MeitY) and the India Semiconductor Mission.
+      </div>
+      <div class="flex justify-center space-x-4 font-mono text-[10px] mt-2 md:mt-0">
+        <a href="robots.txt" class="hover:text-slate-400">Robots</a>
+        <span>•</span>
+        <a href="sitemap.xml" class="hover:text-slate-400">Sitemap</a>
+        <span>•</span>
+        <span class="text-emerald-500">SSL / TLS Enforced</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main JavaScript File -->
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
