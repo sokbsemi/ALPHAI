@@ -520,6 +520,40 @@
     });
   }
 
+  // --- SAFE CLIPBOARD COPY ENGINE WITH FALLBACK ---
+  function safeCopyToClipboard(text, onSuccess, onError) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text)
+        .then(() => { if (typeof onSuccess === 'function') onSuccess(); })
+        .catch(() => fallbackCopyTextToClipboard(text, onSuccess, onError));
+    } else {
+      fallbackCopyTextToClipboard(text, onSuccess, onError);
+    }
+  }
+
+  function fallbackCopyTextToClipboard(text, onSuccess, onError) {
+    try {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.top = '-9999px';
+      textArea.style.left = '-9999px';
+      textArea.setAttribute('readonly', '');
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      if (successful && typeof onSuccess === 'function') {
+        onSuccess();
+      } else if (!successful && typeof onError === 'function') {
+        onError();
+      }
+    } catch (err) {
+      if (typeof onError === 'function') onError(err);
+    }
+  }
+
   // --- 6. EXECUTIVE ABSTRACT MODAL ---
   function initAbstractModal() {
     const triggers = document.querySelectorAll('[data-trigger-abstract]');
@@ -603,7 +637,258 @@
     }
   }
 
-  // --- 7. INTERACTIVE MEMORY MAP INSPECTOR (FOR ARCHITECTURE PAGE) ---
+  // --- 7. SMART EMAIL & WAITLIST DISPATCHER (CROSS-BROWSER PC & WEBMAIL RESOLVER) ---
+  function parseMailto(href) {
+    let email = 'design@sokbsemi.in';
+    let subject = 'Insider List Request - ATLAS-I Launch';
+    let body = 'Hello SOKB Team,\n\nI would like to join the insider list for the ATLAS-I launch and receive exclusive technical updates.\n\nName: \nCompany: \nTarget Domain: ';
+
+    if (!href) return { email, subject, body };
+
+    try {
+      const cleanHref = href.replace(/^mailto:/i, '');
+      const parts = cleanHref.split('?');
+      if (parts[0] && parts[0].trim()) {
+        email = decodeURIComponent(parts[0].trim());
+      }
+      if (parts[1]) {
+        const params = new URLSearchParams(parts[1]);
+        if (params.get('subject')) subject = params.get('subject');
+        if (params.get('body')) body = params.get('body');
+      }
+    } catch (e) {
+      console.warn('Mailto parsing error:', e);
+    }
+
+    return { email, subject, body };
+  }
+
+  function initSmartEmailDispatcher() {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    document.addEventListener('click', function (e) {
+      const mailtoLink = e.target.closest('a[href^="mailto:"], [data-trigger-waitlist]');
+      if (!mailtoLink) return;
+
+      const isWaitlistBtn = mailtoLink.hasAttribute('data-trigger-waitlist') || 
+                            (mailtoLink.textContent && mailtoLink.textContent.toLowerCase().includes('waitlist'));
+
+      // Intercept on desktop browsers (where mailto fails) OR whenever explicit waitlist button is clicked
+      if (!isMobile || isWaitlistBtn) {
+        e.preventDefault();
+        const href = mailtoLink.getAttribute('href') || 'mailto:design@sokbsemi.in?subject=Insider%20List%20Request%20-%20ATLAS-I%20Launch';
+        const mailData = parseMailto(href);
+        showSmartEmailModal(mailData);
+      }
+    });
+  }
+
+  function showSmartEmailModal(data) {
+    let modal = document.getElementById('smart-email-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'smart-email-modal';
+      modal.setAttribute('role', 'dialog');
+      modal.setAttribute('aria-modal', 'true');
+      modal.setAttribute('aria-labelledby', 'email-modal-title');
+      modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm transition-opacity duration-200';
+      document.body.appendChild(modal);
+    }
+
+    const initialSubject = data.subject || 'Insider List Request - ATLAS-I Launch';
+    const initialBody = data.body || 'Hello SOKB Team,\n\nI would like to join the insider list for the ATLAS-I launch and receive exclusive technical updates.\n\nName: \nCompany: \nTarget Domain: ';
+    const targetEmail = data.email || 'design@sokbsemi.in';
+
+    modal.innerHTML = `
+      <div class="bg-white dark:bg-[#0A1120] border border-slate-300 dark:border-slate-700 rounded-2xl max-w-xl w-full max-h-[92vh] overflow-y-auto p-5 sm:p-7 shadow-2xl relative text-slate-800 dark:text-slate-100">
+        
+        <!-- Header -->
+        <div class="flex items-start justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
+          <div>
+            <div class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-600 dark:text-cyan-400 font-mono text-[10px] font-bold uppercase tracking-wider mb-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+              <span>ATLAS-I SILICON DISPATCH DESK</span>
+            </div>
+            <h3 id="email-modal-title" class="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight">
+              Join ATLAS-I Waitlist &amp; Direct Dispatch
+            </h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              Choose your browser webmail (Gmail, Outlook) or copy pre-formatted dispatch text.
+            </p>
+          </div>
+          <button id="close-email-modal-btn" class="text-slate-400 hover:text-slate-600 dark:hover:text-white p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg transition" aria-label="Close dialog">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <!-- Recipient & Subject Indicator -->
+        <div class="mt-4 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-2">
+          <div class="flex items-center justify-between text-xs font-mono">
+            <span class="text-slate-500 dark:text-slate-400">Recipient:</span>
+            <div class="flex items-center space-x-2">
+              <span class="font-bold text-slate-900 dark:text-white">${targetEmail}</span>
+              <button id="copy-email-address-btn" class="px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-700 dark:text-amber-300 font-bold text-[10px] border border-amber-500/40 transition">
+                Copy Email
+              </button>
+            </div>
+          </div>
+          <div class="text-xs font-mono flex items-baseline space-x-2 text-slate-600 dark:text-slate-300 pt-1 border-t border-slate-200 dark:border-slate-800">
+            <span class="text-slate-500 dark:text-slate-400 shrink-0">Subject:</span>
+            <span class="font-semibold text-slate-800 dark:text-slate-200 truncate" id="dispatch-subject-preview">${initialSubject}</span>
+          </div>
+        </div>
+
+        <!-- Quick Details Form -->
+        <div class="mt-4 space-y-3 text-xs font-mono">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Your Name</label>
+              <input type="text" id="quick-name-input" placeholder="e.g. Dr. Aryan Sharma" class="w-full px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 text-xs">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Organization / Entity</label>
+              <input type="text" id="quick-org-input" placeholder="e.g. Edge Hardware Lab" class="w-full px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 text-xs">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Message Preview</label>
+            <textarea id="dispatch-body-textarea" rows="4" class="w-full px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 text-xs leading-relaxed font-mono resize-none">${initialBody}</textarea>
+          </div>
+        </div>
+
+        <!-- 1-Click Browser Webmail Dispatch Options -->
+        <div class="mt-5 space-y-2.5">
+          <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">1-Click Webmail Dispatch:</div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <!-- Gmail Web Button -->
+            <button id="open-gmail-btn" class="flex items-center justify-center space-x-2.5 px-4 py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-mono text-xs font-bold uppercase tracking-wider transition shadow-md hover:shadow-red-500/20 min-h-[44px]">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+              <span>Open in Gmail (Web)</span>
+            </button>
+
+            <!-- Outlook Web Button -->
+            <button id="open-outlook-btn" class="flex items-center justify-center space-x-2.5 px-4 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs font-bold uppercase tracking-wider transition shadow-md hover:shadow-blue-500/20 min-h-[44px]">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M22.5 4.5h-15A1.5 1.5 0 0 0 6 6v12a1.5 1.5 0 0 0 1.5 1.5h15a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5zm0 3-7.5 4.5L7.5 7.5V6l7.5 4.5L22.5 6v1.5zM1.5 7.5A1.5 1.5 0 0 0 0 9v9a1.5 1.5 0 0 0 1.5 1.5H5V7.5H1.5z"/></svg>
+              <span>Open in Outlook (Web)</span>
+            </button>
+          </div>
+
+          <!-- Secondary Options: Copy Message & Default Desktop Mail Client -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+            <button id="copy-full-message-btn" class="flex items-center justify-center space-x-2 px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-amber-500 text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800/80 font-mono text-xs font-bold uppercase transition min-h-[44px]">
+              <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+              <span id="copy-full-text">Copy Full Message</span>
+            </button>
+
+            <button id="open-native-client-btn" class="flex items-center justify-center space-x-2 px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-cyan-400 text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800/80 font-mono text-xs font-bold uppercase transition min-h-[44px]">
+              <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <span>Default Desktop App</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Toast Feedback -->
+        <div id="dispatcher-toast" class="hidden mt-3 p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-mono font-bold text-center">
+          Copied to clipboard successfully!
+        </div>
+
+      </div>
+    `;
+
+    modal.classList.remove('hidden');
+
+    const nameInput = document.getElementById('quick-name-input');
+    const orgInput = document.getElementById('quick-org-input');
+    const bodyTextarea = document.getElementById('dispatch-body-textarea');
+
+    function updateTemplate() {
+      const name = nameInput.value.trim() || '[Your Name]';
+      const org = orgInput.value.trim() || '[Your Company / Organization]';
+      bodyTextarea.value = `Hello SOKB Team,\n\nI would like to join the insider list for the ATLAS-I launch and receive exclusive technical updates.\n\nName: ${name}\nOrganization: ${org}\nInquiry Target: ATLAS-I Early-Access Dossier`;
+    }
+
+    nameInput.addEventListener('input', updateTemplate);
+    orgInput.addEventListener('input', updateTemplate);
+
+    function getCurrentPayload() {
+      return {
+        subject: initialSubject,
+        body: bodyTextarea.value
+      };
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('dispatcher-toast');
+      if (toast) {
+        toast.textContent = message;
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 3000);
+      }
+    }
+
+    // Gmail Web Handler
+    document.getElementById('open-gmail-btn').addEventListener('click', function () {
+      const payload = getCurrentPayload();
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(targetEmail)}&su=${encodeURIComponent(payload.subject)}&body=${encodeURIComponent(payload.body)}`;
+      window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+      showToast('Opening Gmail in new tab...');
+    });
+
+    // Outlook Web Handler
+    document.getElementById('open-outlook-btn').addEventListener('click', function () {
+      const payload = getCurrentPayload();
+      const outlookUrl = `https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(targetEmail)}&subject=${encodeURIComponent(payload.subject)}&body=${encodeURIComponent(payload.body)}`;
+      window.open(outlookUrl, '_blank', 'noopener,noreferrer');
+      showToast('Opening Outlook in new tab...');
+    });
+
+    // Copy Email Address Only
+    document.getElementById('copy-email-address-btn').addEventListener('click', function () {
+      safeCopyToClipboard(targetEmail, () => {
+        showToast(`Copied ${targetEmail} to clipboard!`);
+      });
+    });
+
+    // Copy Full Message Text
+    document.getElementById('copy-full-message-btn').addEventListener('click', function () {
+      const payload = getCurrentPayload();
+      const fullText = `To: ${targetEmail}\nSubject: ${payload.subject}\n\n${payload.body}`;
+      safeCopyToClipboard(fullText, () => {
+        const btnText = document.getElementById('copy-full-text');
+        if (btnText) btnText.textContent = 'Copied!';
+        showToast('Full message template copied to clipboard!');
+        setTimeout(() => { if (btnText) btnText.textContent = 'Copy Full Message'; }, 2500);
+      });
+    });
+
+    // Native Desktop Client Fallback
+    document.getElementById('open-native-client-btn').addEventListener('click', function () {
+      const payload = getCurrentPayload();
+      const nativeMailto = `mailto:${targetEmail}?subject=${encodeURIComponent(payload.subject)}&body=${encodeURIComponent(payload.body)}`;
+      window.location.href = nativeMailto;
+      showToast('Launching desktop mail app...');
+    });
+
+    function closeModal() {
+      modal.classList.add('hidden');
+    }
+
+    document.getElementById('close-email-modal-btn').addEventListener('click', closeModal);
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener('keydown', function escHandler(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+        document.removeEventListener('keydown', escHandler);
+      }
+    });
+  }
+
+  // --- 8. INTERACTIVE MEMORY MAP INSPECTOR (FOR ARCHITECTURE PAGE) ---
   function initMemoryInspector() {
     const memoryRows = document.querySelectorAll('.memory-row');
     const displayPanel = document.getElementById('memory-detail-panel');
@@ -676,6 +961,7 @@
     initSecureForm();
     initAbstractModal();
     initMemoryInspector();
+    initSmartEmailDispatcher();
 
     document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
       btn.addEventListener('click', toggleTheme);
