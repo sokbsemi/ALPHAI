@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" class="light" data-font-size="normal">
 <head>
   <meta charset="UTF-8">
@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#070C16" media="(prefers-color-scheme: dark)">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.tailwindcss.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; font-src 'self' data:; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' mailto:; frame-ancestors 'none'; upgrade-insecure-requests;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.tailwindcss.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; font-src 'self' data:; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://gc.zgo.at; connect-src 'self' https://sokbsemi.goatcounter.com https://*.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self' mailto:; frame-ancestors 'none'; upgrade-insecure-requests;">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="X-Frame-Options" content="DENY">
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()">
@@ -292,5 +292,13 @@
   </footer>
 
   <script src="assets/js/main.js"></script>
+
+  <!-- Privacy-Preserving Web Analytics (GoatCounter 404 Logger) -->
+  <script>
+    window.goatcounter = {
+      path: function(p) { return '404' + location.pathname; }
+    };
+  </script>
+  <script data-goatcounter="https://sokbsemi.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
