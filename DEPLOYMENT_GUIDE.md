@@ -1,4 +1,4 @@
-﻿# SOKB SEMICONDUCTOR — GitHub Pages Deployment Guide
+# SOKB SEMICONDUCTOR — GitHub Pages Deployment Guide
 **Target Custom Domain:** `sokbsemi.in`  
 **Repository Branch:** `main`
 
@@ -84,3 +84,19 @@ Add a `CNAME` record to forward `www` traffic to your GitHub Pages address:
 - [ ] **Security Disclosure**: Test that `https://sokbsemi.in/.well-known/security.txt` loads with the RFC 9116 security policy.
 - [ ] **Custom 404**: Test `https://sokbsemi.in/invalid-path` and confirm the custom SOKB 404 page renders.
 - [ ] **GIGW Controls**: Test IST clock, font size toggles (A- / A / A+), high contrast mode, and dark/light mode toggle.
+
+---
+
+## 6. 📌 Campaign Bookmark: SPARK™ Product Launch Timer
+
+> [!IMPORTANT]
+> **SPARK™ Launch Timer Script Details (`assets/js/spark-splash-timer.js`):**
+> - **Event Target:** Semicon 2.0 (14 September 2026, 00:00:00 IST — 20 September 2026, 23:59:59 IST)
+> - **File Location:** [`assets/js/spark-splash-timer.js`](assets/js/spark-splash-timer.js)
+> - **Activation Method:** Insert the following script tag directly before `</body>` in `index.html`:
+>   ```html
+>   <script src="assets/js/spark-splash-timer.js"></script>
+>   ```
+> - **Preview Bypass:** Append `?preview=spark` to test the overlay at any time prior to September 14.
+> - **Auto-Expiry:** After 20 September 23:59:59 IST, the overlay is automatically suppressed without code redeployment.
+
