@@ -367,3 +367,65 @@ html.dark .pow-badge {
     border-color: #000000 !important;
   }
 }
+
+/* ==========================================================================
+   PRODUCT LAUNCH CAMPAIGN SPLASH OVERLAY (SPARK™)
+   ========================================================================== */
+#spark-splash-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: rgba(6, 11, 20, 0.68);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#spark-splash-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+#spark-splash-overlay.diluting {
+  opacity: 0 !important;
+  pointer-events: none;
+  transition: opacity 0.35s ease-out;
+}
+
+#spark-splash-card {
+  position: relative;
+  max-width: 42rem;
+  width: 100%;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  background: #091120;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  box-shadow: 0 25px 65px -15px rgba(0, 0, 0, 0.85), 0 0 35px rgba(245, 158, 11, 0.25);
+  transform: scale(0.88) translateY(24px);
+  opacity: 0;
+  transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease-out;
+  will-change: transform, opacity;
+}
+
+#spark-splash-overlay.active #spark-splash-card {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+#spark-splash-overlay.diluting #spark-splash-card {
+  transform: scale(0.95) translateY(12px);
+  opacity: 0;
+  transition: transform 0.35s ease-out, opacity 0.3s ease-out;
+}
+
+#spark-splash-card:hover {
+  border-color: rgba(245, 158, 11, 0.7);
+  box-shadow: 0 30px 75px -12px rgba(0, 0, 0, 0.9), 0 0 45px rgba(245, 158, 11, 0.35);
+}
+

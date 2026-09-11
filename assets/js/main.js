@@ -953,7 +953,88 @@
     });
   }
 
-  // --- 8. DOM READY DISPATCHER ---
+  // --- 8. SPARK PRODUCT LAUNCH CAMPAIGN SPLASH OVERLAY ---
+  function initSparkSplash() {
+    const overlay = document.getElementById('spark-splash-overlay');
+    const card = document.getElementById('spark-splash-card');
+    const closeBtn = document.getElementById('spark-splash-close');
+    const reopenBtns = document.querySelectorAll('[data-trigger-spark-splash]');
+    if (!overlay || !card) return;
+
+    function openSplash() {
+      overlay.style.display = 'flex';
+      overlay.classList.remove('diluting');
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          overlay.classList.add('active');
+          document.body.classList.add('overflow-hidden');
+        }, 30);
+      });
+    }
+
+    function dismissSplash() {
+      if (overlay.classList.contains('diluting') || !overlay.classList.contains('active')) return;
+      overlay.classList.add('diluting');
+      document.body.classList.remove('overflow-hidden');
+      setTimeout(() => {
+        overlay.classList.remove('active', 'diluting');
+        overlay.style.display = 'none';
+      }, 360);
+    }
+
+    // Auto-pop on load with smooth 450ms entrance delay
+    setTimeout(openSplash, 450);
+
+    // Clicking non-graphic area (transparent backdrop) dilutes/dismisses to main page
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay || !card.contains(e.target)) {
+        dismissSplash();
+      }
+    });
+
+    // Close button dismiss
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dismissSplash();
+      });
+    }
+
+    // ESC key dismiss
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('active')) {
+        dismissSplash();
+      }
+    });
+
+    // Reopen buttons (if user clicks campaign badge on home page)
+    reopenBtns.forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        openSplash();
+      });
+    });
+  }
+
+  // --- 9. CAMPAIGN ENQUIRY FOCUS DISPATCHER ---
+  function initCampaignEnquiryFocus() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('enquiry') === 'spark' || window.location.hash === '#enquiry') {
+      const enquiryTarget = document.getElementById('enquiry');
+      if (enquiryTarget) {
+        setTimeout(() => {
+          enquiryTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          enquiryTarget.classList.add('ring-4', 'ring-amber-500/50', 'transition-all', 'duration-500');
+          setTimeout(() => {
+            enquiryTarget.classList.remove('ring-4', 'ring-amber-500/50');
+          }, 3000);
+        }, 400);
+      }
+    }
+  }
+
+  // --- 10. DOM READY DISPATCHER ---
   document.addEventListener('DOMContentLoaded', function () {
     initTheme();
     initAccessibility();
@@ -962,6 +1043,8 @@
     initAbstractModal();
     initMemoryInspector();
     initSmartEmailDispatcher();
+    initSparkSplash();
+    initCampaignEnquiryFocus();
 
     document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
       btn.addEventListener('click', toggleTheme);
