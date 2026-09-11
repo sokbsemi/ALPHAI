@@ -771,35 +771,19 @@
   </footer>
 
   <!-- ==================== PRODUCT LAUNCH CAMPAIGN SPLASH OVERLAY (SPARK™) ==================== -->
-  <aside id="spark-splash-overlay" role="dialog" aria-modal="true" aria-labelledby="spark-splash-title" style="display: none;">
+  <aside id="spark-splash-overlay" role="dialog" aria-modal="true" aria-label="SPARK Product Launch Campaign" style="display: none;">
     <div id="spark-splash-card" class="group relative">
       
       <!-- Top Close Button (Dismiss Trigger) -->
-      <button id="spark-splash-close" type="button" class="absolute top-3 right-3 sm:top-4 sm:right-4 z-30 p-2 rounded-full bg-slate-950/80 hover:bg-slate-900 text-slate-300 hover:text-white border border-white/20 backdrop-blur-md transition-all shadow-xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-amber-500 min-h-[40px] min-w-[40px] flex items-center justify-center cursor-pointer" aria-label="Dismiss campaign splash" title="Dismiss (ESC or click outside)">
+      <button id="spark-splash-close" type="button" class="absolute top-3 right-3 sm:top-4 sm:right-4 z-30 p-2 rounded-full bg-slate-950/80 hover:bg-slate-900 text-slate-300 hover:text-white border border-white/20 backdrop-blur-md transition-all shadow-xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-amber-500 min-h-[40px] min-w-[40px] flex items-center justify-center cursor-pointer" aria-label="Dismiss campaign splash" title="Dismiss (ESC or click background)">
         <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
         </svg>
       </button>
 
       <!-- Clickable Graphic Body -> Lands on Enquiry / Order Page -->
-      <a href="contact.html?enquiry=spark#enquiry" id="spark-splash-link" class="block focus:outline-none focus:ring-2 focus:ring-amber-500 rounded-2xl overflow-hidden" aria-label="SPARK Product Launch Campaign - Click to place order or make an enquiry">
+      <a href="contact.html?enquiry=spark#enquiry" id="spark-splash-link" class="block focus:outline-none focus:ring-2 focus:ring-amber-500 rounded-2xl overflow-hidden" aria-label="SPARK Product Launch Campaign - Click to order now or make an enquiry">
         
-        <!-- Top Institutional Brand Strip -->
-        <div class="px-4 py-2.5 bg-gradient-to-r from-slate-950 via-[#0A1428] to-slate-950 border-b border-slate-800 flex items-center justify-between text-xs font-mono">
-          <div class="flex items-center space-x-2">
-            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-500/20 text-amber-400 border border-amber-500/40">
-              PRODUCT LAUNCH
-            </span>
-            <span id="spark-splash-title" class="text-slate-200 font-semibold tracking-wider text-[11px] sm:text-xs">
-              SPARK™ • PROXIMITY MARKETING
-            </span>
-          </div>
-          <span class="hidden sm:inline-flex items-center text-[10px] text-emerald-400 font-bold uppercase tracking-widest mr-12">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span>
-            PLACE YOUR ORDER
-          </span>
-        </div>
-
         <!-- Graphic Image Display -->
         <div class="relative overflow-hidden bg-slate-950">
           <img src="assets/images/spark-launch-campaign.png" 
@@ -812,15 +796,17 @@
 
         <!-- Bottom Tactile Call-To-Action Ribbon -->
         <div class="px-4 sm:px-6 py-3.5 bg-gradient-to-r from-slate-950 via-[#081020] to-slate-950 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div class="text-[11px] sm:text-xs text-slate-300 font-mono text-center sm:text-left flex items-center gap-2">
+          <div class="text-[11px] sm:text-xs font-mono text-center sm:text-left flex items-center gap-2">
             <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
             </svg>
-            <span>Click to <strong class="text-white">Place your Order</strong> or <strong class="text-amber-400">Join Priority Waitlist &rarr;</strong></span>
+            <span class="text-white">
+              Witness live demo at <strong class="text-amber-400 font-bold">Semicon 2.0</strong>, and get a chance to win <strong class="text-amber-400 font-bold">SPARK Lite</strong> for <strong class="text-yellow-300 font-extrabold uppercase">FREE</strong>
+            </span>
           </div>
 
-          <div class="inline-flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 group-hover:from-amber-400 group-hover:to-amber-500 text-slate-950 text-xs font-mono font-black uppercase tracking-wider shadow-lg group-hover:shadow-amber-500/25 transition shrink-0">
-            <span>Place Order / Enquiry</span>
+          <div class="inline-flex items-center px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 group-hover:from-amber-400 group-hover:to-amber-500 text-slate-950 text-xs font-mono font-black uppercase tracking-wider shadow-lg group-hover:shadow-amber-500/25 transition shrink-0">
+            <span>ORDER NOW</span>
             <svg class="w-3.5 h-3.5 ml-1.5 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
             </svg>
