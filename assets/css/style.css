@@ -429,3 +429,43 @@ html.dark .pow-badge {
   box-shadow: 0 30px 75px -12px rgba(0, 0, 0, 0.9), 0 0 45px rgba(245, 158, 11, 0.35);
 }
 
+/* Floating Glassmorphic Close Button (Top Right Corner Position) */
+#spark-splash-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.625rem;
+  height: 2.625rem;
+  border-radius: 9999px;
+  background-color: rgba(9, 17, 32, 0.85);
+  color: #F8FAFC;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.75), 0 0 15px rgba(245, 158, 11, 0.3);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#spark-splash-close:hover {
+  background-color: #F59E0B;
+  color: #030712;
+  border-color: #FBBF24;
+  transform: scale(1.1);
+  box-shadow: 0 12px 28px -4px rgba(245, 158, 11, 0.5), 0 0 25px rgba(245, 158, 11, 0.5);
+}
+
+#spark-splash-close:active {
+  transform: scale(0.95);
+}
+
+#spark-splash-close:focus-visible {
+  outline: 2px solid #F59E0B;
+  outline-offset: 2px;
+}
+
+
