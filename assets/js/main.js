@@ -359,7 +359,7 @@
       const originalBtnText = submitBtn ? submitBtn.textContent : '';
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Computing Proof-of-Work...';
+        submitBtn.textContent = 'Sending Enquiry...';
       }
 
       // VAPT 5: Client-Side Proof-of-Work Challenge (Anti-Bot Network Countermeasure)
