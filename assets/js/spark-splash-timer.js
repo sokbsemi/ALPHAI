@@ -1,8 +1,8 @@
-﻿/**
+/**
  * ==============================================================================
  * SCRIPT: SPARK SPLASH TIMER
  * SOKB SEMICONDUCTOR (SOKB PRIVATE LIMITED)
- * Campaign: SPARK™ Proximity Marketing Launch @ Semicon 2.0
+ * Campaign: SPARK™ Proximity Marketing Launch @ SEMICON India 2026
  * 
  * SCHEDULE SPECIFICATION:
  * - Start Window: 14 September 2026, 00:00:00 IST (UTC+05:30)

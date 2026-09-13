@@ -1243,7 +1243,7 @@
       const token = 'SPARK-ORD-' + Math.random().toString(36).substring(2, 8).toUpperCase();
 
       const subject = `[SPARK Campaign Order/Reachout] ${intent} - ${org || name}`;
-      const body = `Dear SOKB Semiconductor Architecture & Design Team,\n\nI am reaching out regarding the SPARK Proximity Marketing Hardware Platform (Semicon 2.0 Campaign).\n\nCustomer Details:\n- Name & Designation: ${name}\n- Organization / Entity: ${org}\n- Official Email: ${email}\n- Phone / WhatsApp: ${phone}\n- Campaign Intent: ${intent}\n- Reference Token: ${token}\n\nDeployment Scope / Requirements:\n${details}\n\nPlease share commercial availability, priority shipping, or Semicon 2.0 booth demo slot details.\n\nBest regards,\n${name}`;
+      const body = `Dear SOKB Semiconductor Architecture & Design Team,\n\nI am reaching out regarding the SPARK Proximity Marketing Hardware Platform (SEMICON India 2026 Campaign).\n\nCustomer Details:\n- Name & Designation: ${name}\n- Organization / Entity: ${org}\n- Official Email: ${email}\n- Phone / WhatsApp: ${phone}\n- Campaign Intent: ${intent}\n- Reference Token: ${token}\n\nDeployment Scope / Requirements:\n${details}\n\nPlease share commercial availability, priority shipping, or SEMICON India 2026 booth demo slot details.\n\nBest regards,\n${name}`;
 
       return { name, org, email, phone, intent, details, token, subject, body };
     }

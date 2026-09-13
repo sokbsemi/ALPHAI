@@ -91,7 +91,7 @@ Add a `CNAME` record to forward `www` traffic to your GitHub Pages address:
 
 > [!IMPORTANT]
 > **SPARK™ Launch Timer Script Details (`assets/js/spark-splash-timer.js`):**
-> - **Event Target:** Semicon 2.0 (14 September 2026, 00:00:00 IST — 20 September 2026, 23:59:59 IST)
+> - **Event Target:** SEMICON India 2026 (14 September 2026, 00:00:00 IST — 20 September 2026, 23:59:59 IST)
 > - **File Location:** [`assets/js/spark-splash-timer.js`](assets/js/spark-splash-timer.js)
 > - **Activation Method:** Insert the following script tag directly before `</body>` in `index.html`:
 >   ```html

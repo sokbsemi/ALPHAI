@@ -15,7 +15,7 @@ Official repository for **SOKB SEMICONDUCTOR** ([sokbsemi.in](https://sokbsemi.i
 
 > [!IMPORTANT]
 > ### 📌 BOOKMARK: SPARK™ PRODUCT LAUNCH TIMER (`assets/js/spark-splash-timer.js`)
-> - **Campaign Window:** **14 September 2026 (00:00:00 IST) — 20 September 2026 (23:59:59 IST)** *(Semicon 2.0)*
+> - **Campaign Window:** **14 September 2026 (00:00:00 IST) — 20 September 2026 (23:59:59 IST)** *(SEMICON India 2026)*
 > - **Script File:** [`assets/js/spark-splash-timer.js`](assets/js/spark-splash-timer.js)
 > - **Behavior:** Splash overlay stays dormant prior to 14 Sep, automatically activates 14–20 Sep, and auto-expires post 20 Sep.
 > - **Injection Line:** When ready to activate scheduled behavior, inject this line in `index.html` before `</body>`:
