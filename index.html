@@ -784,7 +784,7 @@
       <!-- ==================== VIEW 1: CAMPAIGN GRAPHIC POSTER ==================== -->
       <div id="spark-poster-view" class="block rounded-2xl overflow-hidden">
         <!-- Clickable Graphic Body -> Transitions to Quick Reachout Form -->
-        <div id="spark-poster-graphic" class="cursor-pointer relative overflow-hidden bg-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-500" tabindex="0" role="button" aria-label="Click to pre-order SPARK or reach out to engineering">
+        <div id="spark-poster-graphic" onclick="if(window.showSparkReachout){window.showSparkReachout();}else{var p=document.getElementById('spark-poster-view'),r=document.getElementById('spark-reachout-view');if(p&&r){p.classList.add('hidden');p.classList.remove('block');r.classList.remove('hidden');r.classList.add('block');r.scrollTop=0;}}" class="cursor-pointer relative overflow-hidden bg-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-500" tabindex="0" role="button" aria-label="Click to pre-order SPARK or reach out to engineering">
           <img src="assets/images/spark-launch-campaign.png" 
                alt="SOKB Semiconductor SPARK - Proximity Marketing for Eventplace: Connect, Engage, Sell. Real-Time Client Analytics, Instant Data-Free Opt-Ins, Targeted Proximity-Based Ads. Place your Order." 
                class="w-full h-auto object-contain block transition-transform duration-500 hover:scale-[1.015]"
@@ -804,7 +804,7 @@
             </span>
           </div>
 
-          <button id="spark-order-now-btn" type="button" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-mono font-black uppercase tracking-wider shadow-lg hover:shadow-amber-500/30 transition transform hover:scale-[1.02] active:scale-[0.98] shrink-0 cursor-pointer min-h-[40px] touch-manipulation">
+          <button id="spark-order-now-btn" type="button" onclick="if(window.showSparkReachout){window.showSparkReachout();}else{var p=document.getElementById('spark-poster-view'),r=document.getElementById('spark-reachout-view');if(p&&r){p.classList.add('hidden');p.classList.remove('block');r.classList.remove('hidden');r.classList.add('block');r.scrollTop=0;}}" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-mono font-black uppercase tracking-wider shadow-lg hover:shadow-amber-500/30 transition transform hover:scale-[1.02] active:scale-[0.98] shrink-0 cursor-pointer min-h-[40px] touch-manipulation">
             <span>ORDER NOW</span>
             <svg class="w-3.5 h-3.5 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
@@ -827,7 +827,7 @@
               Get a chance to win SPARK™ Lite for FREE (10 of 10 available)
             </h3>
           </div>
-          <button id="spark-back-to-poster-btn" type="button" class="p-2 rounded-lg border border-amber-500/40 text-amber-400 hover:text-amber-300 hover:bg-amber-500/10 transition shrink-0 flex items-center justify-center cursor-pointer min-h-[38px] min-w-[38px] touch-manipulation" aria-label="Back to Campaign Poster" title="Back to Campaign Poster">
+          <button id="spark-back-to-poster-btn" type="button" onclick="if(window.showSparkPoster){window.showSparkPoster();}else{var p=document.getElementById('spark-poster-view'),r=document.getElementById('spark-reachout-view');if(p&&r){r.classList.add('hidden');r.classList.remove('block');p.classList.remove('hidden');p.classList.add('block');}}" class="p-2 rounded-lg border border-amber-500/40 text-amber-400 hover:text-amber-300 hover:bg-amber-500/10 transition shrink-0 flex items-center justify-center cursor-pointer min-h-[38px] min-w-[38px] touch-manipulation" aria-label="Back to Campaign Poster" title="Back to Campaign Poster">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
           </button>
         </div>

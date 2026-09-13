@@ -1177,6 +1177,7 @@
         }
       }
     }
+    window.showSparkReachout = showReachoutView;
 
     function showPosterView() {
       if (posterView && reachoutView) {
@@ -1186,6 +1187,7 @@
         posterView.classList.add('block');
       }
     }
+    window.showSparkPoster = showPosterView;
 
     if (orderNowBtn) {
       orderNowBtn.addEventListener('click', function (e) {
