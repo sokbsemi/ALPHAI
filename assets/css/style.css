@@ -370,6 +370,7 @@ html.dark .pow-badge {
 
 /* ==========================================================================
    PRODUCT LAUNCH CAMPAIGN SPLASH OVERLAY (SPARK™)
+   Cross-OS (Windows, macOS, iOS, Android, Linux), Cross-Browser, Mobile/Tablet/Desktop Optimized
    ========================================================================== */
 #spark-splash-overlay {
   position: fixed;
@@ -378,13 +379,25 @@ html.dark .pow-badge {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
-  background-color: rgba(6, 11, 20, 0.68);
+  padding: 0.75rem;
+  padding-top: calc(0.75rem + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  padding-left: calc(0.75rem + env(safe-area-inset-left, 0px));
+  padding-right: calc(0.75rem + env(safe-area-inset-right, 0px));
+  background-color: rgba(6, 11, 20, 0.78);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 640px) {
+  #spark-splash-overlay {
+    padding: 1.5rem;
+  }
 }
 
 #spark-splash-overlay.active {
@@ -395,22 +408,34 @@ html.dark .pow-badge {
 #spark-splash-overlay.diluting {
   opacity: 0 !important;
   pointer-events: none;
-  transition: opacity 0.35s ease-out;
+  transition: opacity 0.3s ease-out;
 }
 
 #spark-splash-card {
   position: relative;
-  max-width: 42rem;
+  max-width: 44rem;
   width: 100%;
+  margin: auto;
   border-radius: 1.25rem;
-  overflow: visible;
   background: #091120;
   border: 1px solid rgba(245, 158, 11, 0.4);
   box-shadow: 0 25px 65px -15px rgba(0, 0, 0, 0.85), 0 0 35px rgba(245, 158, 11, 0.25);
-  transform: scale(0.88) translateY(24px);
+  transform: scale(0.92) translateY(18px);
   opacity: 0;
-  transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease-out;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.35s ease-out;
   will-change: transform, opacity;
+  max-height: 94vh;
+  max-height: 94dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 639px) {
+  #spark-splash-card {
+    border-radius: 1rem;
+    max-height: 92vh;
+    max-height: 92dvh;
+  }
 }
 
 #spark-splash-overlay.active #spark-splash-card {
@@ -419,9 +444,9 @@ html.dark .pow-badge {
 }
 
 #spark-splash-overlay.diluting #spark-splash-card {
-  transform: scale(0.95) translateY(12px);
+  transform: scale(0.96) translateY(10px);
   opacity: 0;
-  transition: transform 0.35s ease-out, opacity 0.3s ease-out;
+  transition: transform 0.28s ease-out, opacity 0.25s ease-out;
 }
 
 #spark-splash-card:hover {
@@ -429,34 +454,35 @@ html.dark .pow-badge {
   box-shadow: 0 30px 75px -12px rgba(0, 0, 0, 0.9), 0 0 45px rgba(245, 158, 11, 0.35);
 }
 
-/* Floating Glassmorphic Close Button (Extreme Top Right Corner Position) */
+/* Floating Glassmorphic Close Button */
 #spark-splash-close {
   position: absolute;
-  top: -0.75rem;
-  right: -0.75rem;
+  top: 0.625rem;
+  right: 0.625rem;
   z-index: 60;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: 9999px;
   background-color: rgba(9, 17, 32, 0.92);
   color: #F8FAFC;
   border: 1.5px solid rgba(245, 158, 11, 0.6);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.85), 0 0 15px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 8px 20px -3px rgba(0, 0, 0, 0.85), 0 0 12px rgba(245, 158, 11, 0.3);
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  touch-action: manipulation;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @media (min-width: 640px) {
   #spark-splash-close {
-    top: -1rem;
-    right: -1rem;
-    width: 2.625rem;
-    height: 2.625rem;
+    top: -0.875rem;
+    right: -0.875rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 }
 
@@ -464,17 +490,95 @@ html.dark .pow-badge {
   background-color: #F59E0B;
   color: #030712;
   border-color: #FBBF24;
-  transform: scale(1.12);
+  transform: scale(1.08);
   box-shadow: 0 12px 28px -4px rgba(245, 158, 11, 0.6), 0 0 25px rgba(245, 158, 11, 0.5);
 }
 
 #spark-splash-close:active {
-  transform: scale(0.95);
+  transform: scale(0.94);
 }
 
 #spark-splash-close:focus-visible {
   outline: 2px solid #F59E0B;
   outline-offset: 2px;
+}
+
+/* ==========================================================================
+   VIEW 1 & 2 RESPONSIVE SCROLL & LAYOUT CONTAINMENT
+   ========================================================================== */
+#spark-poster-view {
+  overflow: hidden;
+  border-radius: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
+#spark-poster-graphic {
+  max-height: calc(88vh - 70px);
+  max-height: calc(88dvh - 70px);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #030712;
+}
+
+#spark-poster-graphic img {
+  max-height: calc(85vh - 75px);
+  max-height: calc(85dvh - 75px);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 639px) {
+  #spark-poster-graphic {
+    max-height: calc(85vh - 85px);
+    max-height: calc(85dvh - 85px);
+  }
+  #spark-poster-graphic img {
+    max-height: calc(80vh - 90px);
+    max-height: calc(80dvh - 90px);
+  }
+}
+
+#spark-reachout-view {
+  max-height: 90vh;
+  max-height: 90dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(245, 158, 11, 0.4) transparent;
+  border-radius: inherit;
+}
+
+#spark-reachout-view::-webkit-scrollbar {
+  width: 6px;
+}
+
+#spark-reachout-view::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#spark-reachout-view::-webkit-scrollbar-thumb {
+  background-color: rgba(245, 158, 11, 0.35);
+  border-radius: 9999px;
+}
+
+.spark-view-fade-in {
+  animation: sparkViewFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes sparkViewFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 

@@ -424,8 +424,67 @@
     return Math.random().toString(36).substring(2, 10).toUpperCase();
   }
 
-  // Safe DOM construction with anti-MITM & Proof-of-Work telemetry badges
+  // --- ENQUIRY USER PROFILE PERSISTENCE (AUTO-FILL) ---
+  const ENQUIRY_USER_KEY = 'sokb_enquiry_user_profile';
+
+  function saveEnquiryUserProfile(profile) {
+    try {
+      localStorage.setItem(ENQUIRY_USER_KEY, JSON.stringify(profile));
+    } catch (e) {}
+  }
+
+  function getSavedEnquiryUserProfile() {
+    try {
+      return JSON.parse(localStorage.getItem(ENQUIRY_USER_KEY) || 'null');
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function clearEnquiryUserProfile() {
+    try {
+      localStorage.removeItem(ENQUIRY_USER_KEY);
+    } catch (e) {}
+  }
+
+  function initEnquiryAutoFill() {
+    // Auto-populate form fields from saved profile if available
+    const saved = getSavedEnquiryUserProfile();
+    if (saved) {
+      const cEl = document.getElementById('company_name');
+      const rEl = document.getElementById('rep_name');
+      const eEl = document.getElementById('contact_email');
+      const pEl = document.getElementById('contact_phone');
+      if (cEl && !cEl.value && saved.company) cEl.value = saved.company;
+      if (rEl && !rEl.value && saved.repName) rEl.value = saved.repName;
+      if (eEl && !eEl.value && saved.email) eEl.value = saved.email;
+      if (pEl && !pEl.value && saved.phone) pEl.value = saved.phone;
+    }
+
+    // Fresh Enquiry / Clear Button Listener
+    const freshBtn = document.getElementById('fresh-enquiry-btn');
+    if (freshBtn) {
+      freshBtn.addEventListener('click', function () {
+        clearEnquiryUserProfile();
+        const form = document.getElementById('sokb-secure-contact-form');
+        if (form) {
+          form.reset();
+        }
+        alert('Form cleared! Ready for a fresh enquiry.');
+      });
+    }
+  }
+
+  // Final Option 1: Unified 1-Step Secure Transaction & Direct Dispatch Modal
   function showTransactionModal(data) {
+    // Save user profile for subsequent enquiries so user never has to re-type
+    saveEnquiryUserProfile({
+      company: data.company,
+      repName: data.repName,
+      email: data.email,
+      phone: data.phone
+    });
+
     let modal = document.getElementById('txn-modal');
     if (!modal) {
       modal = document.createElement('div');
@@ -433,65 +492,12 @@
       modal.setAttribute('role', 'dialog');
       modal.setAttribute('aria-modal', 'true');
       modal.setAttribute('aria-labelledby', 'txn-modal-title');
-      modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm';
+      modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm transition-opacity duration-200';
       document.body.appendChild(modal);
     }
 
-    modal.innerHTML = `
-      <div class="bg-white dark:bg-slate-900 border-2 border-amber-600 rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-5 sm:p-6 shadow-2xl relative text-slate-800 dark:text-slate-100">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
-          <div class="flex items-center space-x-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-            <h3 id="txn-modal-title" class="font-mono text-xs sm:text-sm font-bold tracking-wider uppercase text-amber-600 dark:text-amber-400">Institutional Dispatch Ready</h3>
-          </div>
-          <button id="close-modal-btn" class="text-slate-400 hover:text-slate-600 dark:hover:text-white p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded" aria-label="Close modal">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-          </button>
-        </div>
-
-        <div class="mt-4 space-y-3 text-sm">
-          <!-- Anti-Bot & Anti-MITM Telemetry Bar -->
-          <div class="p-3 bg-slate-100 dark:bg-slate-800/80 rounded-lg font-mono text-xs border border-slate-200 dark:border-slate-700 space-y-1">
-            <div class="flex justify-between py-0.5"><span class="text-slate-500 dark:text-slate-400">SECURITY PROTOCOL:</span> <span class="text-emerald-600 dark:text-emerald-400 font-semibold">TLS / SHA-256 VERIFIED</span></div>
-            <div class="flex justify-between py-0.5"><span class="text-slate-500 dark:text-slate-400">TRACKING TOKEN:</span> <span id="m-token" class="font-bold text-amber-600 dark:text-amber-400"></span></div>
-            <div class="flex justify-between py-0.5"><span class="text-slate-500 dark:text-slate-400">ANTI-MITM CHECKSUM:</span> <span id="m-checksum" class="text-sky-600 dark:text-sky-400 font-bold"></span></div>
-            <div class="flex justify-between py-0.5"><span class="text-slate-500 dark:text-slate-400">BOT PoW NONCE:</span> <span id="m-nonce" class="text-emerald-600 dark:text-emerald-400"></span></div>
-            <div class="flex justify-between py-0.5"><span class="text-slate-500 dark:text-slate-400">ROUTING ENDPOINT:</span> <span class="text-slate-700 dark:text-slate-200 font-semibold">design@sokbsemi.in</span></div>
-          </div>
-
-          <div class="text-xs space-y-1 text-slate-600 dark:text-slate-300">
-            <p><strong>Entity:</strong> <span id="m-entity"></span></p>
-            <p><strong>Domain:</strong> <span id="m-domain"></span></p>
-            <p><strong>Contact Route:</strong> <span id="m-route"></span></p>
-          </div>
-
-          <p class="text-xs text-slate-500 dark:text-slate-400 italic">
-            Your inquiry is formatted for direct transfer to the SOKB Semiconductor Architecture and ISM DLI Project Directorate.
-          </p>
-
-          <div class="pt-3 flex flex-col sm:flex-row gap-2">
-            <a id="m-dispatch-link" href="#"
-               class="flex-1 text-center bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold py-3 px-4 rounded text-xs tracking-wider uppercase shadow transition min-h-[44px] flex items-center justify-center">
-              Dispatch via Email Client
-            </a>
-            <button id="copy-token-btn" class="bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 py-3 px-4 rounded text-xs font-mono min-h-[44px]">
-              Copy Record Token
-            </button>
-          </div>
-        </div>
-      </div>
-    `;
-
-    // Safe injection through textContent
-    modal.querySelector('#m-token').textContent = data.token;
-    modal.querySelector('#m-checksum').textContent = data.checksum;
-    modal.querySelector('#m-nonce').textContent = `Passed (n=${data.powNonce})`;
-    modal.querySelector('#m-entity').textContent = data.company + ' (' + data.repName + ')';
-    modal.querySelector('#m-domain').textContent = data.domain;
-    modal.querySelector('#m-route').textContent = data.email + ' | ' + data.phone;
-
-    const mailSubject = encodeURIComponent(`SOKB Inquiry [${data.token}] - ${data.company}`);
-    const mailBody = encodeURIComponent(
+    const mailSubject = `SOKB Inquiry [${data.token}] - ${data.company}`;
+    const rawMailBody = 
       `Tracking Token: ${data.token}\n` +
       `Anti-MITM Checksum: ${data.checksum}\n` +
       `Organization: ${data.company}\n` +
@@ -499,25 +505,115 @@
       `Domain: ${data.domain}\n` +
       `Phone: ${data.phone}\n` +
       `Email: ${data.email}\n\n` +
-      `Technical Scope:\n${data.message}`
-    );
-    const dispatchLink = modal.querySelector('#m-dispatch-link');
-    dispatchLink.setAttribute('href', `mailto:design@sokbsemi.in?subject=${mailSubject}&body=${mailBody}`);
+      `Technical Scope:\n${data.message}`;
+
+    const targetEmail = 'design@sokbsemi.in';
+
+    modal.innerHTML = `
+      <div class="bg-white dark:bg-slate-900 border-2 border-amber-500/60 rounded-2xl max-w-sm sm:max-w-md w-full max-h-[90vh] overflow-y-auto p-4 sm:p-5 shadow-2xl relative text-slate-800 dark:text-slate-100 space-y-3">
+        
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between pb-2.5 border-b border-slate-200 dark:border-slate-800">
+          <h3 id="txn-modal-title" class="text-sm sm:text-base font-black text-slate-900 dark:text-white tracking-tight leading-snug">
+            Our team will be in touch with you, shortly
+          </h3>
+          <button id="close-modal-btn" type="button" class="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1 rounded-lg transition cursor-pointer shrink-0 ml-2" aria-label="Close dialog">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <!-- Security Telemetry & Entity Bar -->
+        <div class="p-2.5 bg-slate-100 dark:bg-slate-800/80 rounded-xl font-mono text-[11px] border border-slate-200 dark:border-slate-700 space-y-1">
+          <div class="flex justify-between py-0.5"><span class="text-slate-500 dark:text-slate-400">TRACKING TOKEN:</span> <span class="font-bold text-amber-600 dark:text-amber-400">${data.token}</span></div>
+          <div class="flex justify-between py-0.5"><span class="text-slate-500 dark:text-slate-400">ANTI-MITM CHECKSUM:</span> <span class="text-sky-600 dark:text-sky-400 font-bold">${data.checksum}</span></div>
+          <div class="flex justify-between py-0.5"><span class="text-slate-500 dark:text-slate-400">ORGANIZATION / REP:</span> <span class="text-slate-900 dark:text-white font-semibold">${data.company} (${data.repName})</span></div>
+          <div class="flex justify-between py-0.5"><span class="text-slate-500 dark:text-slate-400">ROUTING ENDPOINT:</span> <span class="text-emerald-600 dark:text-emerald-400 font-bold">${targetEmail}</span></div>
+        </div>
+
+        <!-- Webmail & Desktop Dispatch Actions -->
+        <div class="space-y-2 pt-0.5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <!-- Gmail Web Button -->
+            <button id="open-gmail-btn" class="flex items-center justify-center space-x-2 px-3 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-mono text-xs font-bold uppercase tracking-wider transition shadow hover:shadow-red-500/20 min-h-[40px] cursor-pointer">
+              <svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+              <span>Open in Gmail (Web)</span>
+            </button>
+
+            <!-- Outlook Web Button -->
+            <button id="open-outlook-btn" class="flex items-center justify-center space-x-2 px-3 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs font-bold uppercase tracking-wider transition shadow hover:shadow-blue-500/20 min-h-[40px] cursor-pointer">
+              <svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24"><path d="M22.5 4.5h-15A1.5 1.5 0 0 0 6 6v12a1.5 1.5 0 0 0 1.5 1.5h15a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5zm0 3-7.5 4.5L7.5 7.5V6l7.5 4.5L22.5 6v1.5zM1.5 7.5A1.5 1.5 0 0 0 0 9v9a1.5 1.5 0 0 0 1.5 1.5H5V7.5H1.5z"/></svg>
+              <span>Open in Outlook (Web)</span>
+            </button>
+          </div>
+
+          <!-- Secondary Options: Default Desktop Client & Copy Message -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-0.5">
+            <button id="open-native-client-btn" class="flex items-center justify-center space-x-2 px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-cyan-400 text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800/80 font-mono text-xs font-bold uppercase transition min-h-[38px] cursor-pointer">
+              <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <span>Default Mail App</span>
+            </button>
+
+            <button id="copy-full-message-btn" class="flex items-center justify-center space-x-2 px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-amber-500 text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800/80 font-mono text-xs font-bold uppercase transition min-h-[38px] cursor-pointer">
+              <svg class="w-4 h-4 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+              <span id="copy-full-text">Copy Full Text</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="txn-toast" class="hidden p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-mono font-bold text-center">
+          Copied successfully!
+        </div>
+
+      </div>
+    `;
+
+    function showTxnToast(msg) {
+      const toast = modal.querySelector('#txn-toast');
+      if (toast) {
+        toast.textContent = msg;
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 2500);
+      }
+    }
+
+    modal.querySelector('#open-gmail-btn').addEventListener('click', function () {
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(targetEmail)}&su=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(rawMailBody)}`;
+      window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+      showTxnToast('Opening Gmail...');
+    });
+
+    modal.querySelector('#open-outlook-btn').addEventListener('click', function () {
+      const outlookUrl = `https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(targetEmail)}&subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(rawMailBody)}`;
+      window.open(outlookUrl, '_blank', 'noopener,noreferrer');
+      showTxnToast('Opening Outlook...');
+    });
+
+    modal.querySelector('#open-native-client-btn').addEventListener('click', function () {
+      window.location.href = `mailto:${targetEmail}?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(rawMailBody)}`;
+      showTxnToast('Launching mail client...');
+    });
+
+    modal.querySelector('#copy-full-message-btn').addEventListener('click', function () {
+      const fullPayload = `To: ${targetEmail}\nSubject: ${mailSubject}\n\n${rawMailBody}`;
+      safeCopyToClipboard(fullPayload, () => {
+        const btnText = modal.querySelector('#copy-full-text');
+        if (btnText) btnText.textContent = 'Copied!';
+        showTxnToast('Full enquiry copied to clipboard!');
+        setTimeout(() => { if (btnText) btnText.textContent = 'Copy Full Text'; }, 2000);
+      });
+    });
 
     modal.classList.remove('hidden');
 
-    const closeBtn = document.getElementById('close-modal-btn');
-    closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+    const closeBtn = modal.querySelector('#close-modal-btn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+    }
 
-    // Native Permission-Safe Copy with Fallback
-    const copyBtn = document.getElementById('copy-token-btn');
-    copyBtn.addEventListener('click', () => {
-      const copyText = `SOKB Verification Token: ${data.token} | Checksum: ${data.checksum} | Entity: ${data.company} | Endpoint: design@sokbsemi.in`;
-      safeCopyToClipboard(copyText, () => {
-        copyBtn.textContent = 'Token Copied!';
-        setTimeout(() => (copyBtn.textContent = 'Copy Record Token'), 2000);
-      });
-    });
+    modal.onclick = function (e) {
+      if (e.target === modal) modal.classList.add('hidden');
+    };
   }
 
   // --- SAFE CLIPBOARD COPY ENGINE WITH FALLBACK ---
@@ -698,6 +794,11 @@
     const initialSubject = data.subject || 'Insider List Request - ATLAS-I Launch';
     const initialBody = data.body || 'Hello SOKB Team,\n\nI would like to join the insider list for the ATLAS-I launch and receive exclusive technical updates.\n\nName: \nCompany: \nTarget Domain: ';
     const targetEmail = data.email || 'design@sokbsemi.in';
+    const defaultName = data.name || (getSavedEnquiryUserProfile() ? getSavedEnquiryUserProfile().repName : '');
+    const defaultOrg = data.org || (getSavedEnquiryUserProfile() ? getSavedEnquiryUserProfile().company : '');
+    const isWaitlist = !data.token && !data.domain;
+    const modalTitle = isWaitlist ? 'Join ATLAS-I Waitlist & Direct Dispatch' : 'Official Enquiry Direct Dispatch';
+    const modalBadge = isWaitlist ? 'ATLAS-I SILICON DISPATCH DESK' : 'OFFICIAL INQUIRY ROUTING DESK';
 
     modal.innerHTML = `
       <div class="bg-white dark:bg-[#0A1120] border border-slate-300 dark:border-slate-700 rounded-2xl max-w-xl w-full max-h-[92vh] overflow-y-auto p-5 sm:p-7 shadow-2xl relative text-slate-800 dark:text-slate-100">
@@ -707,16 +808,16 @@
           <div>
             <div class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-600 dark:text-cyan-400 font-mono text-[10px] font-bold uppercase tracking-wider mb-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-              <span>ATLAS-I SILICON DISPATCH DESK</span>
+              <span>${modalBadge}</span>
             </div>
             <h3 id="email-modal-title" class="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight">
-              Join ATLAS-I Waitlist &amp; Direct Dispatch
+              ${modalTitle}
             </h3>
             <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Choose your browser webmail (Gmail, Outlook) or copy pre-formatted dispatch text.
             </p>
           </div>
-          <button id="close-email-modal-btn" class="text-slate-400 hover:text-slate-600 dark:hover:text-white p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg transition" aria-label="Close dialog">
+          <button id="close-email-modal-btn" class="text-slate-400 hover:text-slate-600 dark:hover:text-white p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg transition cursor-pointer" aria-label="Close dialog">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
@@ -727,7 +828,7 @@
             <span class="text-slate-500 dark:text-slate-400">Recipient:</span>
             <div class="flex items-center space-x-2">
               <span class="font-bold text-slate-900 dark:text-white">${targetEmail}</span>
-              <button id="copy-email-address-btn" class="px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-700 dark:text-amber-300 font-bold text-[10px] border border-amber-500/40 transition">
+              <button id="copy-email-address-btn" class="px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-700 dark:text-amber-300 font-bold text-[10px] border border-amber-500/40 transition cursor-pointer">
                 Copy Email
               </button>
             </div>
@@ -743,11 +844,11 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <div>
               <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Your Name</label>
-              <input type="text" id="quick-name-input" placeholder="e.g. Dr. Aryan Sharma" class="w-full px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 text-xs">
+              <input type="text" id="quick-name-input" placeholder="e.g. Dr. Aryan Sharma" value="${defaultName}" class="w-full px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 text-xs">
             </div>
             <div>
               <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Organization / Entity</label>
-              <input type="text" id="quick-org-input" placeholder="e.g. Edge Hardware Lab" class="w-full px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 text-xs">
+              <input type="text" id="quick-org-input" placeholder="e.g. Edge Hardware Lab" value="${defaultOrg}" class="w-full px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 text-xs">
             </div>
           </div>
 
@@ -806,7 +907,19 @@
     function updateTemplate() {
       const name = nameInput.value.trim() || '[Your Name]';
       const org = orgInput.value.trim() || '[Your Company / Organization]';
-      bodyTextarea.value = `Hello SOKB Team,\n\nI would like to join the insider list for the ATLAS-I launch and receive exclusive technical updates.\n\nName: ${name}\nOrganization: ${org}\nInquiry Target: ATLAS-I Early-Access Dossier`;
+      if (isWaitlist) {
+        bodyTextarea.value = `Hello SOKB Team,\n\nI would like to join the insider list for the ATLAS-I launch and receive exclusive technical updates.\n\nName: ${name}\nOrganization: ${org}\nInquiry Target: ATLAS-I Early-Access Dossier`;
+      } else {
+        // Replace or keep representative/organization lines in inquiry body without wiping user message
+        let updated = initialBody;
+        if (/Representative:[^\n]*/.test(updated)) {
+          updated = updated.replace(/Representative:[^\n]*/, `Representative: ${name}`);
+        }
+        if (/Organization:[^\n]*/.test(updated)) {
+          updated = updated.replace(/Organization:[^\n]*/, `Organization: ${org}`);
+        }
+        bodyTextarea.value = updated;
+      }
     }
 
     nameInput.addEventListener('input', updateTemplate);
@@ -961,7 +1074,10 @@
     const reopenBtns = document.querySelectorAll('[data-trigger-spark-splash]');
     if (!overlay || !card) return;
 
+    let savedScrollY = 0;
+
     function openSplash() {
+      savedScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
       overlay.style.display = 'flex';
       overlay.classList.remove('diluting');
       requestAnimationFrame(() => {
@@ -979,7 +1095,11 @@
       setTimeout(() => {
         overlay.classList.remove('active', 'diluting');
         overlay.style.display = 'none';
-      }, 360);
+        // Ensure scroll restoration across iOS Safari and mobile WebViews
+        if (savedScrollY > 0) {
+          window.scrollTo(0, savedScrollY);
+        }
+      }, 320);
     }
 
     // Auto-pop on load with smooth 450ms entrance delay
@@ -1015,6 +1135,183 @@
         openSplash();
       });
     });
+
+    // --- SPARK QUICK REACHOUT CONTROLLER ---
+    const posterView = document.getElementById('spark-poster-view');
+    const reachoutView = document.getElementById('spark-reachout-view');
+    const orderNowBtn = document.getElementById('spark-order-now-btn');
+    const posterGraphic = document.getElementById('spark-poster-graphic');
+    const backToPosterBtn = document.getElementById('spark-back-to-poster-btn');
+    const reachoutForm = document.getElementById('spark-reachout-form');
+
+    function autofillSparkReachout() {
+      try {
+        const saved = localStorage.getItem('sokb_enquiry_user_profile');
+        if (saved) {
+          const profile = JSON.parse(saved);
+          const nameInput = document.getElementById('spark_name');
+          const orgInput = document.getElementById('spark_org');
+          const emailInput = document.getElementById('spark_email');
+          const phoneInput = document.getElementById('spark_phone');
+          if (nameInput && !nameInput.value && profile.name) nameInput.value = profile.name;
+          if (orgInput && !orgInput.value && profile.org) orgInput.value = profile.org;
+          if (emailInput && !emailInput.value && profile.email) emailInput.value = profile.email;
+          if (phoneInput && !phoneInput.value && profile.phone) phoneInput.value = profile.phone;
+        }
+      } catch (err) {
+        // Quiet fallback if localStorage is disabled or restricted in private browsing mode
+      }
+    }
+
+    function showReachoutView() {
+      if (posterView && reachoutView) {
+        posterView.classList.add('hidden');
+        posterView.classList.remove('block');
+        reachoutView.classList.remove('hidden');
+        reachoutView.classList.add('block');
+        reachoutView.scrollTop = 0;
+        autofillSparkReachout();
+        const firstInput = document.getElementById('spark_name');
+        if (firstInput && !firstInput.value) {
+          setTimeout(() => firstInput.focus(), 150);
+        }
+      }
+    }
+
+    function showPosterView() {
+      if (posterView && reachoutView) {
+        reachoutView.classList.add('hidden');
+        reachoutView.classList.remove('block');
+        posterView.classList.remove('hidden');
+        posterView.classList.add('block');
+      }
+    }
+
+    if (orderNowBtn) {
+      orderNowBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        showReachoutView();
+      });
+    }
+
+    if (posterGraphic) {
+      posterGraphic.addEventListener('click', function (e) {
+        e.preventDefault();
+        showReachoutView();
+      });
+      posterGraphic.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          showReachoutView();
+        }
+      });
+    }
+
+    if (backToPosterBtn) {
+      backToPosterBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        showPosterView();
+      });
+    }
+
+    // Direct URL parameter trigger: ?reachout=spark or ?order=spark
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('reachout') === 'spark' || urlParams.get('order') === 'spark') {
+      openSplash();
+      showReachoutView();
+    }
+
+    function getSparkPayload() {
+      const name = document.getElementById('spark_name')?.value.trim() || '';
+      const org = document.getElementById('spark_org')?.value.trim() || '';
+      const email = document.getElementById('spark_email')?.value.trim() || '';
+      const phone = document.getElementById('spark_phone')?.value.trim() || 'N/A';
+      const intent = document.getElementById('spark_intent')?.value || 'ENTER SPARK™ Lite Giveaway';
+      const details = document.getElementById('spark_details')?.value.trim() || 'Requesting deployment specifications, pricing, and availability for SPARK hardware units.';
+      const token = 'SPARK-ORD-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+
+      const subject = `[SPARK Campaign Order/Reachout] ${intent} - ${org || name}`;
+      const body = `Dear SOKB Semiconductor Architecture & Design Team,\n\nI am reaching out regarding the SPARK Proximity Marketing Hardware Platform (Semicon 2.0 Campaign).\n\nCustomer Details:\n- Name & Designation: ${name}\n- Organization / Entity: ${org}\n- Official Email: ${email}\n- Phone / WhatsApp: ${phone}\n- Campaign Intent: ${intent}\n- Reference Token: ${token}\n\nDeployment Scope / Requirements:\n${details}\n\nPlease share commercial availability, priority shipping, or Semicon 2.0 booth demo slot details.\n\nBest regards,\n${name}`;
+
+      return { name, org, email, phone, intent, details, token, subject, body };
+    }
+
+    if (reachoutForm) {
+      reachoutForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const data = getSparkPayload();
+
+        if (!data.name || !data.org || !data.email) {
+          alert('Please complete all mandatory contact fields (Name, Organization, Email).');
+          return;
+        }
+
+        // Store contact profile for subsequent interactions across session
+        try {
+          localStorage.setItem('sokb_enquiry_user_profile', JSON.stringify({
+            name: data.name,
+            org: data.org,
+            email: data.email,
+            phone: data.phone !== 'N/A' ? data.phone : ''
+          }));
+        } catch (err) {}
+
+        const mailtoUrl = `mailto:design@sokbsemi.in?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(data.body)}`;
+        
+        // Launch native mail client
+        window.location.href = mailtoUrl;
+
+        // Visual feedback toast
+        const toast = document.getElementById('spark-reachout-toast');
+        const tokenSpan = document.getElementById('spark-reachout-token');
+        if (toast) {
+          if (tokenSpan) tokenSpan.textContent = `Ref: ${data.token}`;
+          toast.classList.remove('hidden');
+        }
+
+        // Smooth automatic fadeout & close after user sees "Sent Successfully!" message
+        setTimeout(() => {
+          dismissSplash();
+        }, 1100);
+      });
+    }
+
+    // Quick Webmail: Gmail Compose
+    const gmailBtn = document.getElementById('spark-gmail-btn');
+    if (gmailBtn) {
+      gmailBtn.addEventListener('click', function () {
+        const data = getSparkPayload();
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=design@sokbsemi.in&su=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(data.body)}`;
+        window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+      });
+    }
+
+    // Quick Webmail: Outlook Compose
+    const outlookBtn = document.getElementById('spark-outlook-btn');
+    if (outlookBtn) {
+      outlookBtn.addEventListener('click', function () {
+        const data = getSparkPayload();
+        const outlookUrl = `https://outlook.live.com/mail/0/deeplink/compose?to=design@sokbsemi.in&subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(data.body)}`;
+        window.open(outlookUrl, '_blank', 'noopener,noreferrer');
+      });
+    }
+
+    // Quick Webmail: Copy Email Address
+    const copyEmailBtn = document.getElementById('spark-copy-btn');
+    if (copyEmailBtn) {
+      copyEmailBtn.addEventListener('click', function () {
+        const emailToCopy = 'design@sokbsemi.in';
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(emailToCopy).then(() => {
+            copyEmailBtn.textContent = 'Copied!';
+            setTimeout(() => (copyEmailBtn.textContent = 'Copy Email'), 2000);
+          });
+        } else {
+          prompt('Copy email address:', emailToCopy);
+        }
+      });
+    }
   }
 
   // --- 9. CAMPAIGN ENQUIRY FOCUS DISPATCHER ---
@@ -1040,6 +1337,7 @@
     initAccessibility();
     initMobileMenu();
     initSecureForm();
+    initEnquiryAutoFill();
     initAbstractModal();
     initMemoryInspector();
     initSmartEmailDispatcher();
