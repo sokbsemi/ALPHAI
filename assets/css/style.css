@@ -411,7 +411,7 @@ html.dark .pow-badge {
   transition: opacity 0.3s ease-out;
 }
 
-#spark-splash-card {
+.spark-modal-card {
   position: relative;
   max-width: 44rem;
   width: 100%;
@@ -422,7 +422,7 @@ html.dark .pow-badge {
   box-shadow: 0 25px 65px -15px rgba(0, 0, 0, 0.85), 0 0 35px rgba(245, 158, 11, 0.25);
   transform: scale(0.92) translateY(18px);
   opacity: 0;
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.35s ease-out;
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease-out;
   will-change: transform, opacity;
   max-height: 94vh;
   max-height: 94dvh;
@@ -431,31 +431,31 @@ html.dark .pow-badge {
 }
 
 @media (max-width: 639px) {
-  #spark-splash-card {
+  .spark-modal-card {
     border-radius: 1rem;
     max-height: 92vh;
     max-height: 92dvh;
   }
 }
 
-#spark-splash-overlay.active #spark-splash-card {
+#spark-splash-overlay.active .spark-modal-card:not(.hidden) {
   transform: scale(1) translateY(0);
   opacity: 1;
 }
 
-#spark-splash-overlay.diluting #spark-splash-card {
+#spark-splash-overlay.diluting .spark-modal-card {
   transform: scale(0.96) translateY(10px);
   opacity: 0;
-  transition: transform 0.28s ease-out, opacity 0.25s ease-out;
+  transition: transform 0.25s ease-out, opacity 0.25s ease-out;
 }
 
-#spark-splash-card:hover {
+.spark-modal-card:hover {
   border-color: rgba(245, 158, 11, 0.7);
   box-shadow: 0 30px 75px -12px rgba(0, 0, 0, 0.9), 0 0 45px rgba(245, 158, 11, 0.35);
 }
 
-/* Floating Glassmorphic Close Button */
-#spark-splash-close {
+/* Floating Glassmorphic Close Button for Each Modal Window */
+.spark-modal-close-btn {
   position: absolute;
   top: 0.625rem;
   right: 0.625rem;
@@ -478,7 +478,7 @@ html.dark .pow-badge {
 }
 
 @media (min-width: 640px) {
-  #spark-splash-close {
+  .spark-modal-close-btn {
     top: -0.875rem;
     right: -0.875rem;
     width: 2.5rem;
@@ -486,7 +486,7 @@ html.dark .pow-badge {
   }
 }
 
-#spark-splash-close:hover {
+.spark-modal-close-btn:hover {
   background-color: #F59E0B;
   color: #030712;
   border-color: #FBBF24;
@@ -494,90 +494,69 @@ html.dark .pow-badge {
   box-shadow: 0 12px 28px -4px rgba(245, 158, 11, 0.6), 0 0 25px rgba(245, 158, 11, 0.5);
 }
 
-#spark-splash-close:active {
+.spark-modal-close-btn:active {
   transform: scale(0.94);
 }
 
-#spark-splash-close:focus-visible {
+.spark-modal-close-btn:focus-visible {
   outline: 2px solid #F59E0B;
   outline-offset: 2px;
 }
 
 /* ==========================================================================
-   VIEW 1 & 2 RESPONSIVE SCROLL & LAYOUT CONTAINMENT
+   WINDOW 1 & 2 SCROLLBAR & ANIMATION
    ========================================================================== */
-#spark-poster-view {
-  overflow: hidden;
-  border-radius: inherit;
-  display: flex;
-  flex-direction: column;
-}
-
 #spark-poster-graphic {
-  max-height: calc(88vh - 70px);
-  max-height: calc(88dvh - 70px);
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #030712;
+  position: relative;
 }
 
 #spark-poster-graphic img {
+  display: block;
+  width: 100%;
+  height: auto;
   max-height: calc(85vh - 75px);
   max-height: calc(85dvh - 75px);
-  width: auto;
-  max-width: 100%;
   object-fit: contain;
+  margin: 0 auto;
 }
 
 @media (max-width: 639px) {
-  #spark-poster-graphic {
-    max-height: calc(85vh - 85px);
-    max-height: calc(85dvh - 85px);
-  }
   #spark-poster-graphic img {
-    max-height: calc(80vh - 90px);
-    max-height: calc(80dvh - 90px);
+    max-height: calc(80vh - 85px);
+    max-height: calc(80dvh - 85px);
   }
 }
 
-#spark-reachout-view {
-  max-height: 90vh;
-  max-height: 90dvh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(245, 158, 11, 0.4) transparent;
-  border-radius: inherit;
-}
-
-#spark-reachout-view::-webkit-scrollbar {
+.spark-custom-scrollbar::-webkit-scrollbar {
   width: 6px;
 }
 
-#spark-reachout-view::-webkit-scrollbar-track {
+.spark-custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
 
-#spark-reachout-view::-webkit-scrollbar-thumb {
+.spark-custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: rgba(245, 158, 11, 0.35);
   border-radius: 9999px;
 }
 
-.spark-view-fade-in {
-  animation: sparkViewFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.spark-modal-card.spark-view-fade-in {
+  animation: sparkModalFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes sparkViewFadeIn {
+@keyframes sparkModalFadeIn {
   from {
     opacity: 0;
-    transform: translateY(6px) scale(0.985);
+    transform: scale(0.95) translateY(12px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: scale(1) translateY(0);
   }
 }
 

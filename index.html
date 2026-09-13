@@ -61,7 +61,7 @@
   </script>
 
   <!-- Core Custom Stylesheet & GIGW Accessibility -->
-  <link rel="stylesheet" href="assets/css/style.css?v=20260913c">
+  <link rel="stylesheet" href="assets/css/style.css?v=20260913d">
 </head>
 <body class="min-h-screen flex flex-col bg-slate-50 dark:bg-[#070C16] text-slate-800 dark:text-slate-100 antialiased selection:bg-amber-500 selection:text-black">
 
@@ -772,19 +772,20 @@
 
   <!-- ==================== PRODUCT LAUNCH CAMPAIGN SPLASH OVERLAY (SPARK™) ==================== -->
   <aside id="spark-splash-overlay" role="dialog" aria-modal="true" aria-label="SPARK Product Launch Campaign" style="display: none;">
-    <div id="spark-splash-card" class="group relative">
-      
+    
+    <!-- ==================== WINDOW 1: CAMPAIGN GRAPHIC POSTER POP-UP ==================== -->
+    <div id="spark-poster-modal" class="spark-modal-card block group relative">
       <!-- Top Right Corner Floating Glassmorphic Close Button -->
-      <button id="spark-splash-close" type="button" aria-label="Close product launch splash" title="Dismiss (ESC or click background)">
+      <button id="spark-poster-close" type="button" aria-label="Close product launch splash" title="Dismiss (ESC or click background)" class="spark-modal-close-btn">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
         </svg>
       </button>
 
-      <!-- ==================== VIEW 1: CAMPAIGN GRAPHIC POSTER ==================== -->
-      <div id="spark-poster-view" class="block rounded-2xl overflow-hidden">
-        <!-- Clickable Graphic Body -> Transitions to Quick Reachout Form -->
-        <div id="spark-poster-graphic" onclick="if(window.showSparkReachout){window.showSparkReachout();}else{var p=document.getElementById('spark-poster-view'),r=document.getElementById('spark-reachout-view');if(p&&r){p.classList.add('hidden');p.classList.remove('block');r.classList.remove('hidden');r.classList.add('block');r.scrollTop=0;}}" class="cursor-pointer relative overflow-hidden bg-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-500" tabindex="0" role="button" aria-label="Click to pre-order SPARK or reach out to engineering">
+      <!-- Poster Body -->
+      <div class="rounded-2xl overflow-hidden bg-slate-950 flex flex-col">
+        <!-- Clickable Graphic Body -> Opens Window 2 Reachout Pop-Up -->
+        <div id="spark-poster-graphic" class="cursor-pointer relative overflow-hidden bg-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-500" tabindex="0" role="button" aria-label="Click to pre-order SPARK or reach out to engineering">
           <img src="assets/images/spark-launch-campaign.png" 
                alt="SOKB Semiconductor SPARK - Proximity Marketing for Eventplace: Connect, Engage, Sell. Real-Time Client Analytics, Instant Data-Free Opt-Ins, Targeted Proximity-Based Ads. Place your Order." 
                class="w-full h-auto object-contain block transition-transform duration-500 hover:scale-[1.015]"
@@ -804,7 +805,7 @@
             </span>
           </div>
 
-          <button id="spark-order-now-btn" type="button" onclick="if(window.showSparkReachout){window.showSparkReachout();}else{var p=document.getElementById('spark-poster-view'),r=document.getElementById('spark-reachout-view');if(p&&r){p.classList.add('hidden');p.classList.remove('block');r.classList.remove('hidden');r.classList.add('block');r.scrollTop=0;}}" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-mono font-black uppercase tracking-wider shadow-lg hover:shadow-amber-500/30 transition transform hover:scale-[1.02] active:scale-[0.98] shrink-0 cursor-pointer min-h-[40px] touch-manipulation">
+          <button id="spark-order-now-btn" type="button" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-mono font-black uppercase tracking-wider shadow-lg hover:shadow-amber-500/30 transition transform hover:scale-[1.02] active:scale-[0.98] shrink-0 cursor-pointer min-h-[40px] touch-manipulation">
             <span>ORDER NOW</span>
             <svg class="w-3.5 h-3.5 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
@@ -812,10 +813,18 @@
           </button>
         </div>
       </div>
+    </div>
 
-      <!-- ==================== VIEW 2: INSTANT CUSTOMER REACHOUT FORM ==================== -->
-      <div id="spark-reachout-view" class="hidden rounded-2xl overflow-hidden bg-slate-950/95 backdrop-blur-xl border border-amber-500/40 p-4 sm:p-6 md:p-7 shadow-2xl text-slate-100 spark-view-fade-in">
-        
+    <!-- ==================== WINDOW 2: INSTANT CUSTOMER REACHOUT / GIVEAWAY POP-UP ==================== -->
+    <div id="spark-reachout-modal" class="spark-modal-card hidden group relative">
+      <!-- Top Right Corner Floating Glassmorphic Close Button -->
+      <button id="spark-reachout-close" type="button" aria-label="Close reachout window" title="Dismiss (ESC or click background)" class="spark-modal-close-btn">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+
+      <div class="rounded-2xl overflow-hidden bg-slate-950/95 backdrop-blur-xl border border-amber-500/40 p-4 sm:p-6 md:p-7 shadow-2xl text-slate-100 max-h-[90vh] max-h-[90dvh] overflow-y-auto spark-custom-scrollbar">
         <!-- Campaign Form Header -->
         <div class="flex items-start justify-between pb-3 border-b border-slate-800 gap-2">
           <div class="pr-2">
@@ -827,7 +836,7 @@
               Get a chance to win SPARK™ Lite for FREE (10 of 10 available)
             </h3>
           </div>
-          <button id="spark-back-to-poster-btn" type="button" onclick="if(window.showSparkPoster){window.showSparkPoster();}else{var p=document.getElementById('spark-poster-view'),r=document.getElementById('spark-reachout-view');if(p&&r){r.classList.add('hidden');r.classList.remove('block');p.classList.remove('hidden');p.classList.add('block');}}" class="p-2 rounded-lg border border-amber-500/40 text-amber-400 hover:text-amber-300 hover:bg-amber-500/10 transition shrink-0 flex items-center justify-center cursor-pointer min-h-[38px] min-w-[38px] touch-manipulation" aria-label="Back to Campaign Poster" title="Back to Campaign Poster">
+          <button id="spark-back-to-poster-btn" type="button" class="p-2 rounded-lg border border-amber-500/40 text-amber-400 hover:text-amber-300 hover:bg-amber-500/10 transition shrink-0 flex items-center justify-center cursor-pointer min-h-[38px] min-w-[38px] touch-manipulation" aria-label="Back to Campaign Poster" title="Back to Campaign Poster">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
           </button>
         </div>
@@ -912,6 +921,7 @@
 
       </div>
     </div>
+
   </aside>
 
   <!-- Main JavaScript File -->

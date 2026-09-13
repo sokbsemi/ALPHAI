@@ -1069,17 +1069,26 @@
   // --- 8. SPARK PRODUCT LAUNCH CAMPAIGN SPLASH OVERLAY ---
   function initSparkSplash() {
     const overlay = document.getElementById('spark-splash-overlay');
-    const card = document.getElementById('spark-splash-card');
-    const closeBtn = document.getElementById('spark-splash-close');
+    const posterModal = document.getElementById('spark-poster-modal');
+    const reachoutModal = document.getElementById('spark-reachout-modal');
+    const posterCloseBtn = document.getElementById('spark-poster-close');
+    const reachoutCloseBtn = document.getElementById('spark-reachout-close');
     const reopenBtns = document.querySelectorAll('[data-trigger-spark-splash]');
-    if (!overlay || !card) return;
+    if (!overlay || !posterModal || !reachoutModal) return;
 
     let savedScrollY = 0;
 
-    function openSplash() {
+    function openSplash(initialView = 'poster') {
       savedScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
       overlay.style.display = 'flex';
       overlay.classList.remove('diluting');
+      
+      if (initialView === 'reachout') {
+        showReachoutModal();
+      } else {
+        showPosterModal();
+      }
+
       requestAnimationFrame(() => {
         setTimeout(() => {
           overlay.classList.add('active');
@@ -1099,22 +1108,29 @@
         if (savedScrollY > 0) {
           window.scrollTo(0, savedScrollY);
         }
-      }, 320);
+      }, 300);
     }
 
     // Auto-pop on load with smooth 450ms entrance delay
-    setTimeout(openSplash, 450);
+    setTimeout(() => openSplash('poster'), 450);
 
-    // Clicking non-graphic area (transparent backdrop) dilutes/dismisses to main page
+    // Clicking transparent backdrop dismisses the active popup
     overlay.addEventListener('click', function (e) {
-      if (e.target === overlay || !card.contains(e.target)) {
+      if (e.target === overlay) {
         dismissSplash();
       }
     });
 
-    // Close button dismiss
-    if (closeBtn) {
-      closeBtn.addEventListener('click', function (e) {
+    // Close button dismiss for Window 1 and Window 2
+    if (posterCloseBtn) {
+      posterCloseBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dismissSplash();
+      });
+    }
+    if (reachoutCloseBtn) {
+      reachoutCloseBtn.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
         dismissSplash();
@@ -1132,13 +1148,11 @@
     reopenBtns.forEach(btn => {
       btn.addEventListener('click', function (e) {
         e.preventDefault();
-        openSplash();
+        openSplash('poster');
       });
     });
 
-    // --- SPARK QUICK REACHOUT CONTROLLER ---
-    const posterView = document.getElementById('spark-poster-view');
-    const reachoutView = document.getElementById('spark-reachout-view');
+    // --- TWO SEPARATE WINDOW CONTROLLERS ---
     const orderNowBtn = document.getElementById('spark-order-now-btn');
     const posterGraphic = document.getElementById('spark-poster-graphic');
     const backToPosterBtn = document.getElementById('spark-back-to-poster-btn');
@@ -1163,49 +1177,44 @@
       }
     }
 
-    function showReachoutView() {
-      if (posterView && reachoutView) {
-        posterView.classList.add('hidden');
-        posterView.classList.remove('block');
-        reachoutView.classList.remove('hidden');
-        reachoutView.classList.add('block');
-        reachoutView.scrollTop = 0;
-        autofillSparkReachout();
-        const firstInput = document.getElementById('spark_name');
-        if (firstInput && !firstInput.value) {
-          setTimeout(() => firstInput.focus(), 150);
-        }
+    function showReachoutModal() {
+      posterModal.classList.add('hidden');
+      posterModal.classList.remove('block');
+      reachoutModal.classList.remove('hidden');
+      reachoutModal.classList.add('block', 'spark-view-fade-in');
+      autofillSparkReachout();
+      const firstInput = document.getElementById('spark_name');
+      if (firstInput && !firstInput.value) {
+        setTimeout(() => firstInput.focus(), 150);
       }
     }
-    window.showSparkReachout = showReachoutView;
+    window.showSparkReachout = showReachoutModal;
 
-    function showPosterView() {
-      if (posterView && reachoutView) {
-        reachoutView.classList.add('hidden');
-        reachoutView.classList.remove('block');
-        posterView.classList.remove('hidden');
-        posterView.classList.add('block');
-      }
+    function showPosterModal() {
+      reachoutModal.classList.add('hidden');
+      reachoutModal.classList.remove('block');
+      posterModal.classList.remove('hidden');
+      posterModal.classList.add('block', 'spark-view-fade-in');
     }
-    window.showSparkPoster = showPosterView;
+    window.showSparkPoster = showPosterModal;
 
     if (orderNowBtn) {
       orderNowBtn.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        showReachoutView();
+        showReachoutModal();
       });
     }
 
     if (posterGraphic) {
       posterGraphic.addEventListener('click', function (e) {
         e.preventDefault();
-        showReachoutView();
+        showReachoutModal();
       });
       posterGraphic.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          showReachoutView();
+          showReachoutModal();
         }
       });
     }
@@ -1213,15 +1222,15 @@
     if (backToPosterBtn) {
       backToPosterBtn.addEventListener('click', function (e) {
         e.preventDefault();
-        showPosterView();
+        e.stopPropagation();
+        showPosterModal();
       });
     }
 
     // Direct URL parameter trigger: ?reachout=spark or ?order=spark
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('reachout') === 'spark' || urlParams.get('order') === 'spark') {
-      openSplash();
-      showReachoutView();
+      openSplash('reachout');
     }
 
     function getSparkPayload() {
