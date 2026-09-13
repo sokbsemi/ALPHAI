@@ -75,7 +75,7 @@ SOKB Semiconductor strictly respects user and institutional privacy:
 ## 🏛️ Silicon IP Architecture & Products
 
 - **ATLAS-I Chiplet:** Sovereign edge AI coprocessor engineered for drone avionics, smart infrastructure, and robotics (+30% power efficiency, +50% compute density).
-- **Hazard3 Dual-Core SoC:** Silicon-proven open RV32IMAC instruction set fabric targeted for 40nm Bulk CMOS process node with low-latency 64-bit AXI4 crossbar interconnect.
+- **ATLNode Dual-Core SoC:** Silicon-proven open RV32IMAC instruction set fabric targeted for 40nm Bulk CMOS process node with low-latency 64-bit AXI4 crossbar interconnect.
 - **Unified SRAM Subsystem:** 512 KB SRAM arranged across 4 interleaved 128 KB banks with CDC timing closure.
 
 ---

@@ -693,7 +693,7 @@
           <div class="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-lg border border-slate-200 dark:border-slate-700 space-y-2">
             <div class="font-mono text-xs font-bold text-slate-800 dark:text-slate-200">CORE SYSTEM ATTRIBUTES:</div>
             <ul class="list-disc pl-5 space-y-1 font-mono text-xs">
-              <li><strong>Compute Core:</strong> Dual-Core Hazard3 (RV32IMAC_Zba_Zbb_Zbs) @ 150-200 MHz</li>
+              <li><strong>Compute Core:</strong> Dual-Core ATLNode (RV32IMAC_Zba_Zbb_Zbs) @ 150-200 MHz</li>
               <li><strong>Physical Target:</strong> 40nm Bulk CMOS Process Line</li>
               <li><strong>Interconnect:</strong> 64-bit Multi-Master AXI4 High-Bandwidth Crossbar</li>
               <li><strong>Memory:</strong> 512 KB Unified SRAM (4 x 128 KB Banks) + 16 KB Boot ROM</li>

@@ -558,7 +558,36 @@ html.dark .pow-badge {
     opacity: 1;
     transform: scale(1) translateY(0);
   }
+}/* ==========================================================================
+   PRIMARY NAVIGATION MENU RIBBON (EQUIDISTANT & UI/UX OPTIMIZED)
+   ========================================================================== */
+nav .hidden.xl\:flex {
+  white-space: nowrap;
 }
 
+@media (min-width: 1280px) {
+  nav .hidden.xl\:flex {
+    display: flex !important;
+    align-items: center;
+    gap: 1.75rem; /* 28px strictly equidistant gap */
+  }
+}
 
+@media (min-width: 1536px) {
+  nav .hidden.xl\:flex {
+    gap: 2.25rem; /* 36px on wide displays */
+  }
+}
+
+nav .hidden.xl\:flex a {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.dark nav a[href="product.html"] span.font-extrabold {
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.45);
+}
 

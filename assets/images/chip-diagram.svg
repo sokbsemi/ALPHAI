@@ -21,14 +21,14 @@
 
   <!-- Title Badge -->
   <rect x="40" y="38" width="410" height="32" rx="6" fill="#0B132B" stroke="#1E293B" stroke-width="1"/>
-  <text x="52" y="59" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#38BDF8">SOKB-RV40: DUAL-CORE HAZARD3 RISC-V SYSTEM ARCHITECTURE</text>
+  <text x="52" y="59" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#38BDF8">SOKB-RV40: DUAL-CORE ATLNODE RISC-V SYSTEM ARCHITECTURE</text>
   <text x="780" y="59" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#D97706">40nm BULK CMOS</text>
 
   <!-- Core 0 Block -->
   <g id="core0" transform="translate(50, 90)">
     <rect width="260" height="150" rx="10" fill="#1A2238" stroke="#38BDF8" stroke-width="2"/>
     <rect x="10" y="10" width="240" height="26" rx="4" fill="#0E172A"/>
-    <text x="20" y="28" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#F8FAFC">CORE 0: HAZARD3 RV32IMAC_Zba_Zbb_Zbs</text>
+    <text x="20" y="28" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#F8FAFC">CORE 0: ATLNODE RV32IMAC_Zba_Zbb_Zbs</text>
     
     <rect x="14" y="44" width="110" height="42" rx="4" fill="#0B1329" stroke="#64748B" stroke-width="1"/>
     <text x="22" y="62" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#94A3B8">3-Stage Pipe</text>
@@ -51,7 +51,7 @@
   <g id="core1" transform="translate(340, 90)">
     <rect width="260" height="150" rx="10" fill="#1A2238" stroke="#38BDF8" stroke-width="2"/>
     <rect x="10" y="10" width="240" height="26" rx="4" fill="#0E172A"/>
-    <text x="20" y="28" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#F8FAFC">CORE 1: HAZARD3 RV32IMAC_Zba_Zbb_Zbs</text>
+    <text x="20" y="28" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#F8FAFC">CORE 1: ATLNODE RV32IMAC_Zba_Zbb_Zbs</text>
     
     <rect x="14" y="44" width="110" height="42" rx="4" fill="#0B1329" stroke="#64748B" stroke-width="1"/>
     <text x="22" y="62" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#94A3B8">3-Stage Pipe</text>
