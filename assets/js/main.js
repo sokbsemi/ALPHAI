@@ -1111,8 +1111,9 @@
       }, 300);
     }
 
-    // Auto-pop on load with smooth 450ms entrance delay
-    setTimeout(() => openSplash('poster'), 450);
+    // Expose overlay controls globally for timer scheduler & direct triggers
+    window.openSparkSplash = openSplash;
+    window.dismissSparkSplash = dismissSplash;
 
     // Clicking transparent backdrop dismisses the active popup
     overlay.addEventListener('click', function (e) {

@@ -34,8 +34,8 @@
     popDelay: 450,
     // Element Selectors
     overlayId: 'spark-splash-overlay',
-    cardId: 'spark-splash-card',
-    closeBtnId: 'spark-splash-close',
+    posterModalId: 'spark-poster-modal',
+    reachoutModalId: 'spark-reachout-modal',
     reopenTriggerAttr: 'data-trigger-spark-splash'
   };
 
@@ -55,75 +55,46 @@
     return (now >= CONFIG.startTime && now <= CONFIG.endTime);
   }
 
+  // Expose evaluation globally for inspector/audit
+  window.isSparkCampaignActive = isCampaignActive;
+
   /**
-   * Controls display and dismissal of the splash overlay
+   * Controls scheduled display and dismissal of the splash overlay
    */
   function initSparkSplashTimer() {
     var overlay = document.getElementById(CONFIG.overlayId);
-    var card = document.getElementById(CONFIG.cardId);
-    var closeBtn = document.getElementById(CONFIG.closeBtnId);
-    var reopenBtns = document.querySelectorAll('[' + CONFIG.reopenTriggerAttr + ']');
+    if (!overlay) return;
 
-    if (!overlay || !card) return;
-
-    function openSplash() {
-      overlay.style.display = 'flex';
-      overlay.classList.remove('diluting');
-      requestAnimationFrame(function () {
-        setTimeout(function () {
-          overlay.classList.add('active');
-          document.body.classList.add('overflow-hidden');
-        }, 30);
-      });
-    }
-
-    function dismissSplash() {
-      if (overlay.classList.contains('diluting') || !overlay.classList.contains('active')) return;
-      overlay.classList.add('diluting');
-      document.body.classList.remove('overflow-hidden');
-      setTimeout(function () {
-        overlay.classList.remove('active', 'diluting');
-        overlay.style.display = 'none';
-      }, 360);
+    function triggerOpen() {
+      if (typeof window.openSparkSplash === 'function') {
+        window.openSparkSplash('poster');
+      } else {
+        overlay.style.display = 'flex';
+        overlay.classList.remove('diluting');
+        requestAnimationFrame(function () {
+          setTimeout(function () {
+            overlay.classList.add('active');
+            document.body.classList.add('overflow-hidden');
+          }, 30);
+        });
+      }
     }
 
     // Check campaign timer schedule
     if (isCampaignActive()) {
-      setTimeout(openSplash, CONFIG.popDelay);
+      setTimeout(triggerOpen, CONFIG.popDelay);
     } else {
-      // Inactive window: keep overlay completely hidden
+      // Inactive window: ensure overlay remains completely hidden
       overlay.style.display = 'none';
       overlay.classList.remove('active');
     }
 
-    // Dismiss if user clicks on the non-graphic area (transparent backdrop)
-    overlay.addEventListener('click', function (e) {
-      if (e.target === overlay || !card.contains(e.target)) {
-        dismissSplash();
-      }
-    });
-
-    // Close button dismiss
-    if (closeBtn) {
-      closeBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        dismissSplash();
-      });
-    }
-
-    // ESC key dismiss
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && overlay.classList.contains('active')) {
-        dismissSplash();
-      }
-    });
-
     // Reopen buttons (re-opens whenever user clicks campaign badge on home page)
+    var reopenBtns = document.querySelectorAll('[' + CONFIG.reopenTriggerAttr + ']');
     reopenBtns.forEach(function (btn) {
       btn.addEventListener('click', function (e) {
         e.preventDefault();
-        openSplash();
+        triggerOpen();
       });
     });
   }
