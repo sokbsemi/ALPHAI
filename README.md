@@ -1,1 +1,0 @@
-All IP architectures, RTL definitions, layout blocks, and schematics are proprietary to **SOKB Private Limited**. Commercial licensing should be coordinated via Design Office. Please reach out to design@sokbsemi.in
